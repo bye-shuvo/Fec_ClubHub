@@ -1,4 +1,4 @@
-import Clubcarosel from "./Clubcards";
+import Clubcards from "./Clubcards";
 import Eventcarousel from "./Eventcarousel";
 import Navbar from "./Navbar";
 
@@ -163,7 +163,7 @@ const Home = () => {
     <div className="font-all min-h-screen -z-30">
       <Navbar />
       <Eventcarousel clubs={clubs} />
-      <Clubcarosel clubs={clubs} />
+      <Clubcards clubs={clubs} />
     </div>
   );
 };

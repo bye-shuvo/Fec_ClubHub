@@ -1,7 +1,7 @@
 const Navbar = () => {
   return (
     <>
-      <nav className="flex items-center justify-between sticky top-0 left-0 z-30 px-4 py-3 w-full h-[4rem] bg-white/60 backdrop-blur-xl border-b-2 border-gray-200 shadow-sm">
+      <nav className="flex items-center justify-between sticky top-0 left-0 z-40 px-4 py-3 w-full h-[4rem] bg-white/60 backdrop-blur-xl border-b-2 border-gray-200 shadow-sm">
         <h1 className="font-header font-extrabold md:text-[2.5rem] text-2xl text-center text-primary hover:text-primary-dark transition-colors duration-200 ease-in-out">
           FEC ClubHub
         </h1>

@@ -4,9 +4,15 @@ import image1 from "../assets/photos/fecsa-banner.jpg";
 import image2 from "../assets/photos/fecpc-banner.jpg";
 import image3 from "../assets/photos/roverscout-banner.jpg";
 
-const Eventcarousel = () => {
+const Eventcarousel = ({ clubs }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  function getUtilityObject(id , isLearmMoreClicked) {
+    const club = clubs.find((club) => club.clubId === id);
+    const colors = getCategoryColors(club.category);
+     return { club: club, colors: colors , isEventQuery : isLearmMoreClicked} 
+  }
 
   // Function to get category-specific colors
   const getCategoryColors = (category) => {
@@ -97,32 +103,38 @@ const Eventcarousel = () => {
   const slides = [
     {
       slideName: "FECSA",
-      clubName : 'Faridpur Engineering College Sports Association',
+      clubName: "Faridpur Engineering College Sports Association",
+      clubId: 7,
       category: "sports",
-      eventName : "Tournament-2025" , 
+      eventName: "Tournament-2025",
       eventDescription:
         "Join The Sports With The Only Sporting slide Of Faridpur Engineering College.",
       eventPhoto: image1,
+      eventLink: "",
       type: "Upcoming",
     },
     {
       slideName: "FECPC",
-      clubName : 'Faridpur Engineering College Photographic Club',
+      clubName: "Faridpur Engineering College Photographic Club",
       category: "creative",
-      eventName : "Take a photo - 2025" , 
+      clubId: 8,
+      eventName: "Take a photo - 2025",
       eventDescription:
         "Join The Photographic slide To Capture The Moments Of Life",
       eventPhoto: image2,
+      eventLink: "",
       type: "Running",
     },
     {
-      slideName: "Rover Scout",
-      clubName : 'Faridpur Engineering College Rover Scout Group' ,
+      slideName: "FECRSG",
+      clubName: "Faridpur Engineering College Rover Scout Group",
       category: "community",
-      eventName : "Help the country - 2025",
+      clubId: 6,
+      eventName: "Help the country - 2025",
       eventDescription:
         "Join Rover Scout For self-development and community service",
       eventPhoto: image3,
+      eventLink: "",
       type: "Expired",
     },
   ];
@@ -167,7 +179,6 @@ const Eventcarousel = () => {
       <div className="relative bg-background-secondary overflow-hidden">
         {/* Main Carousel Container */}
         <div className="relative h-[calc(100vh-4rem)] flex items-center">
-
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
@@ -190,7 +201,7 @@ const Eventcarousel = () => {
 
           <button
             onClick={nextSlide}
-            className="absolute right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-charcoal/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 transition-all duration-300 group"
+            className="absolute right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-charcoal/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 transition-all duration-300 group"
           >
             <svg
               className="w-6 h-6 transform group-hover:translate-x-1 transition-transform"
@@ -231,7 +242,10 @@ const Eventcarousel = () => {
                           {slide.eventName}
                         </h1>
                         <h2 className="text-xl lg:text-2xl font-bold text-text mb-6 leading-tight animate-slide-in-left">
-                          <p className="text-text-secondary mb-2 text-xl">organized by -</p> {slide.clubName}
+                          <p className="text-text-secondary mb-2 text-xl">
+                            organized by -
+                          </p>{" "}
+                          {slide.clubName}
                         </h2>
                         <p className="text-lg text-text-secondary/80 mb-10 leading-relaxed animate-slide-in-left-delay">
                           {slide.eventDescription}
@@ -239,12 +253,18 @@ const Eventcarousel = () => {
                       </div>
 
                       <div className="flex items-center space-x-6 animate-slide-in-left-delay-2">
-                        <button
+                        <Link
+                          to={`/clubs/${slide.slideName}`}
+                          state={getUtilityObject(slide.clubId , false)}
                           className={`${colors.text} ${colors.hover} px-8 py-4 rounded-lg font-semibold transition-all duration-300 border-2 ${colors.border} hover:scale-105 hover:shadow-lg`}
                         >
                           Join Now
-                        </button>
-                        <button className="text-text-secondary hover:text-text transition-colors duration-300 flex items-center space-x-2">
+                        </Link>
+                        <Link
+                          to={`/clubs/${slide.slideName}`}
+                          state={getUtilityObject(slide.clubId , true)}
+                          className="text-text-secondary hover:text-text transition-colors duration-300 flex items-center space-x-2"
+                        >
                           <span>Learn More</span>
                           <svg
                             className="w-5 h-5"
@@ -259,7 +279,7 @@ const Eventcarousel = () => {
                               d="M9 5l7 7-7 7"
                             />
                           </svg>
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -269,7 +289,7 @@ const Eventcarousel = () => {
           </div>
 
           {/* Image Slides Container */}
-          <div className="absolute right-0 top-0 w-[60%] h-full z-10 overflow-hidden">
+          <div className="absolute right-0 top-0 w-[60%] h-full z-20 overflow-hidden">
             <div
               className="flex w-full h-full transition-transform duration-700 ease-in-out delay-200"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -283,11 +303,11 @@ const Eventcarousel = () => {
                   >
                     <div className="relative w-64 h-96 lg:w-[55rem] lg:h-[35rem] animate-scale-in">
                       {/* Image Container with Modern Styling */}
-                      <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl">
+                      <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl group">
                         <img
                           src={slide.eventPhoto}
                           alt={`${slide.slideName} banner`}
-                          className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
+                          className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                         />
                         {/* Gradient Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-charcoal/20"></div>
@@ -326,7 +346,7 @@ const Eventcarousel = () => {
           </div>
 
           {/* Pagination Dots */}
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex space-x-3 z-50">
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex space-x-4 z-50">
             {slides.map((_, index) => (
               <button
                 key={index}
@@ -339,11 +359,10 @@ const Eventcarousel = () => {
               />
             ))}
           </div>
-
         </div>
 
         {/* Auto-play Indicator */}
-        <div className="absolute top-8 right-8 z-50">
+        <div className="absolute top-8 right-8 z-20">
           <button
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
             className="w-12 h-12 bg-charcoal/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/40 transition-all duration-300"

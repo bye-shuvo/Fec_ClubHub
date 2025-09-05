@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import Committee from "./Committee";
 import Acheivements from "./Acheivements";
@@ -8,8 +8,7 @@ import Contacts from "./Contacts";
 
 const Club = () => {
   const location = useLocation();
-  const club = location.state.club;
-  const colors = location.state.colors;
+  const {club , colors , isEventQuery} = location.state;
 
   console.log("Club from the state : ", club);
 
@@ -22,6 +21,18 @@ const Club = () => {
     { id: "testimonials", label: "Testimonials" },
     { id: "contacts", label: "Contacts" },
   ];
+
+  useEffect(()=>{
+    if(isEventQuery){
+      setActiveTab("events");
+    }
+    else{
+      return ;
+    }
+    return () =>{
+      setActiveTab("members");
+    }
+  } , []);
 
   return (
     <div className="font-all min-h-screen bg-background-secondary">
