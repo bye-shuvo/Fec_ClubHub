@@ -35,7 +35,7 @@ const Club = () => {
   } , []);
 
   return (
-    <div className="font-all min-h-screen bg-background-secondary">
+    <div className="font-all min-h-screen bg-background-secondary dark:bg-charcoal">
       {/* Banner Section */}
       <div className={`group relative h-96 overflow-hidden`}>
         <Link to="/" className="z-10 absolute top-10 left-10">
@@ -75,7 +75,7 @@ const Club = () => {
                 className={`py-4 px-1 border-b-2 text-md ${
                   activeTab === tab.id
                     ? `${colors.text} font-semibold`
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    : "border-transparent text-gray-500 dark:text-background-secondary/80 hover:text-gray-700 dark:hover:text-background-secondary hover:border-gray-300"
                 }`}
               >
                 {tab.label}

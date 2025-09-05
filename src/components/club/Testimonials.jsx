@@ -28,10 +28,10 @@ const Testimonials = ({ club }) => {
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="font-header text-5xl font-bold text-charcoal mb-4">
+        <h2 className="font-header text-5xl font-bold text-charcoal dark:text-white mb-4">
           Member Testimonials
         </h2>
-        <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+        <p className="text-lg text-text-secondary dark:text-text-secondary-dark max-w-2xl mx-auto">
           Hear from our members about their experiences and how FECRIC has
           impacted their journey.
         </p>
@@ -43,7 +43,7 @@ const Testimonials = ({ club }) => {
             testimonial.clubId === club.clubId && (
               <div
                 key={testimonial.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
+                className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
               >
                 <div className="text-center mb-4">
                   <img
@@ -51,21 +51,21 @@ const Testimonials = ({ club }) => {
                     alt={testimonial.name}
                     className="w-20 h-20 rounded-full mx-auto mb-3"
                   />
-                  <h3 className="text-lg font-semibold text-text-secondary">
+                  <h3 className="text-lg font-semibold text-text-secondary dark:text-text-secondary-dark">
                     {testimonial.name}
                   </h3>
                   <p className="text-blue-600 font-medium">
                     {testimonial.role}
                   </p>
                 </div>
-                <blockquote className="text-text-secondary italic text-center">
+                <blockquote className="text-text-secondary dark:text-text-secondary-dark italic text-center">
                   "{testimonial.text}"
                 </blockquote>
               </div>
             )
         )}
       </div>) : (
-        <div className="mx-auto text-2xl text-text-secondary text-center">
+        <div className="mx-auto text-2xl text-text-secondary dark:text-text-secondary-dark text-center">
           No testimonial to show yet
         </div>
       )

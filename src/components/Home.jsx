@@ -160,7 +160,7 @@ const Home = () => {
     },
   ];
   return (
-    <div className="font-all min-h-screen -z-30">
+    <div className="font-all min-h-screen dark:bg-charcoal -z-30">
       <Navbar />
       <Eventcarousel clubs={clubs} />
       <Clubcards clubs={clubs} />

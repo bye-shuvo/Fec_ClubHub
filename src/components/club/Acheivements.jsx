@@ -40,10 +40,10 @@ const Achievements = ({ club }) => {
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="font-header text-5xl font-bold text-charcoal mb-4">
+        <h2 className="font-header text-5xl font-bold text-charcoal dark:text-white mb-4">
           Club Achievements
         </h2>
-        <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+        <p className="text-lg text-text-secondary dark:text-text-secondary-dark max-w-2xl mx-auto">
           Celebrating our milestones and successes that showcase the talent and
           dedication of our members.
         </p>
@@ -57,7 +57,7 @@ const Achievements = ({ club }) => {
               achievement.clubId === club.clubId && (
                 <div
                   key={achievement.id}
-                  className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
+                  className="bg-white dark:bg-charcoal-card rounded-lg shadow-md p-6 hover:shadow-lg dark:hover:bg-background-secondary/5 hover:scale-102 transition-all duration-150 ease-in-out"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <span
@@ -73,14 +73,14 @@ const Achievements = ({ club }) => {
                     >
                       {achievement.category}
                     </span>
-                    <span className="text-sm text-text-secondary">
+                    <span className="text-sm text-text-secondary dark:hover:text-text-secondary-dark">
                       {achievement.year}
                     </span>
                   </div>
-                  <h3 className="text-xl font-semibold text-text mb-2">
+                  <h3 className="text-xl font-semibold text-text dark:text-white mb-2">
                     {achievement.title}
                   </h3>
-                  <p className="text-text-secondary text-md">
+                  <p className="text-text-secondary dark:hover:text-text-secondary-dark text-md">
                     {achievement.description}
                   </p>
                 </div>

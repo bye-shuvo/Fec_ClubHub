@@ -328,17 +328,17 @@ const Contacts = ({ club }) => {
           {contactMethods?.map((method, idx) => (
             <div
               key={`${method.category}-${idx}`}
-              className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
+              className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
             >
               <div className="flex flex-col items-start justify-between mb-4">
                 <div className="space-x-2">
                   {method.logo}
-                  <h3 className="text-xl font-semibold text-text mb-2">
+                  <h3 className="text-xl font-semibold text-text dark:text-white mb-2">
                     {method.category}
                   </h3>
                 </div>
                 {method.subtext ? (
-                  <p className="text-md text-text-secondary mb-3">
+                  <p className="text-md text-text-secondary dark:text-text-secondary-dark mb-3">
                     {method.subtext}
                   </p>
                 ) : null}
@@ -346,7 +346,7 @@ const Contacts = ({ club }) => {
                 <a
                   href={getMethodLink(method.category , contact.methods)}
                   target="_blank"
-                  className={`${method.theme} text-center cursor-pointer px-4 py-2 w-full rounded-lg font-medium transition-all duration-300 border hover:scale-105`}
+                  className={`${method.theme} text-center dark:text-white cursor-pointer px-4 py-2 w-full rounded-lg font-medium transition-all duration-300 border hover:scale-105`}
                 >
                   {method.lebel}
                 </a>
@@ -355,7 +355,7 @@ const Contacts = ({ club }) => {
           ))}
         </div>
       ) : (
-        <div className="text-text-secondary text-2xl text-center">
+        <div className="text-text-secondary dark:text-text-secondary-dark text-2xl text-center">
           No contact details
         </div>
       )}

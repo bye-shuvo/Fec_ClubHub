@@ -35,7 +35,7 @@ const Events = ({ club }) => {
       {clubEvents.some((event) => event.clubId === club.clubId) ? (
         <div className="space-y-6">
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold">Upcoming Events</h2>
+            <h2 className="text-3xl font-bold dark:text-white">Upcoming Events</h2>
             {clubEvents.some((event) => event.type === "upcoming") ? (
               <div className="grid grid-cols-2 gap-6">
                 {clubEvents.map(
@@ -44,7 +44,7 @@ const Events = ({ club }) => {
                     event.type === "upcoming" && (
                       <div
                         key={event.id}
-                        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-101 transition-all duration-150 ease-in-out"
+                        className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-101 transition-all duration-150 ease-in-out"
                       >
                         <div className="flex items-start justify-between mb-4">
                           <span
@@ -60,14 +60,14 @@ const Events = ({ club }) => {
                           >
                             {event.category}
                           </span>
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm text-text-secondary dark:text-text-secondary-dark">
                             {event.year}
                           </span>
                         </div>
-                        <h3 className="text-xl font-semibold text-text mb-2">
+                        <h3 className="text-xl font-semibold text-text mb-2 dark:text-white">
                           {event.title}
                         </h3>
-                        <p className="text-gray-600">{event.description}</p>
+                        <p className="text-text-secondary dark:text-text-secondary-dark">{event.description}</p>
                       </div>
                     )
                 )}
@@ -79,7 +79,7 @@ const Events = ({ club }) => {
             )}
           </div>
           <div className="space-y-6">
-            <h2 className="text-3xl font-bold">Old Events</h2>
+            <h2 className="text-3xl font-bold text-charcoal dark:text-white">Old Events</h2>
             {clubEvents.some((event) => event.type === "old") ? (
               <div className="grid grid-cols-2 gap-6">
                 {clubEvents.map(
@@ -88,7 +88,7 @@ const Events = ({ club }) => {
                     event.type === "old" && (
                       <div
                         key={event.id}
-                        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-101 transition-all duration-150 ease-in-out"
+                        className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-101 transition-all duration-150 ease-in-out"
                       >
                         <div className="flex items-start justify-between mb-4">
                           <span
@@ -104,27 +104,27 @@ const Events = ({ club }) => {
                           >
                             {event.category}
                           </span>
-                          <span className="text-sm text-gray-500">
+                          <span className="text-sm text-text-secondary dark:text-text-secondary-dark">
                             {event.year}
                           </span>
                         </div>
-                        <h3 className="text-xl font-semibold text-text mb-2">
+                        <h3 className="text-xl font-semibold text-text dark:text-white mb-2">
                           {event.title}
                         </h3>
-                        <p className="text-gray-600">{event.description}</p>
+                        <p className="text-text-secondary dark:text-text-secondary-dark">{event.description}</p>
                       </div>
                     )
                 )}
               </div>
             ) : (
-              <div className="mx-auto text-2xl text-text-secondary text-center">
+              <div className="mx-auto text-2xl text-text-secondary dark:text-text-secondary-dark text-center">
                 No event to show
               </div>
             )}
           </div>
         </div>
       ) : (
-        <div className="mx-auto text-2xl text-text-secondary text-center">
+        <div className="mx-auto text-2xl text-text-secondary dark:text-text-secondary-dark text-center">
           No event to show yet
         </div>
       )}

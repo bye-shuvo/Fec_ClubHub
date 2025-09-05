@@ -1,135 +1,134 @@
-@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Asimovian&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Asimovian&display=swap");
 @import "tailwindcss";
-@plugin "daisyui"{
-  exclude : rootscrollgutter;
-}
+
 @theme {
   /* Primary Brand Colors */
   --color-primary: #422ad5;
   --color-primary-dark: #351bcf;
   --color-primary-light: #543ed8;
-  
+
   /* Supporting Colors */
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-error: #EF4444;
-  --color-info: #06B6D4;
-  --color-error-secondary : #e0072c;
-  
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #06b6d4;
+  --color-error-secondary: #e0072c;
+
   /* Neutral Palette */
-  --color-text: #1F2937;
-  --color-text-secondary: #6B7280;
-  --color-text-muted: #9CA3AF;
-  --color-background: #FFFFFF;
-  --color-background-secondary: #F9FAFB;
-  --color-border: #E5E7EB;
-  --color-surface: #F3F4F6;
-  
+  --color-text: #1f2937;
+  --color-text-secondary: #6b7280;
+  --color-text-secondary-dark: #787d92;
+  --color-text-muted: #9ca3af;
+  --color-background: #ffffff;
+  --color-background-secondary: #f9fafb;
+  --color-border: #e5e7eb;
+  --color-surface: #f3f4f6;
+  --color-charcoal-card : #151d2c ;
+
   /* Specialty Colors */
-  --color-club-accent: #8B5CF6;
-  --color-innovation: #F59E0B;
-  --color-technology: #14B8A6;
-  --color-cultural: #F97316;
-  
+  --color-club-accent: #8b5cf6;
+  --color-innovation: #f59e0b;
+  --color-technology: #14b8a6;
+  --color-cultural: #f97316;
+
   /* Legacy Colors (keeping for compatibility) */
-  --color-body: #F9FAFB;
-  --color-secondary: #2563EB;
-  --color-tertiary: #6B7280;
-  --color-green: #10B981;
-  --color-slate: #6B7280;
+  --color-body: #f9fafb;
+  --color-secondary: #2563eb;
+  --color-tertiary: #6b7280;
+  --color-green: #10b981;
+  --color-slate: #6b7280;
   --color-olive: #374151;
-  --color-golden: #F59E0B;
-  --color-offred: #FEE2E2;
-  --color-charcoal: #1F2937;
-  --color-cream: #FEF3C7;
-  --color-gray: #9CA3AF;
-  --color-teal: #14B8A6;
-  --color-muted: #6B7280;
-  
+  --color-golden: #f59e0b;
+  --color-offred: #fee2e2;
+  --color-charcoal: #1f2937;
+  --color-cream: #fef3c7;
+  --color-gray: #9ca3af;
+  --color-teal: #14b8a6;
+  --color-muted: #6b7280;
+
   /* Contact Method Theme Colors */
-  --color-contact-facebook: #1877F2;
-  --color-contact-email: #EA4335;
-  --color-contact-form: #10B981;
-  
-  --font-header: "Open Sans", sans-serif; 
-  --font-all : "Figtree", sans-serif;
+  --color-contact-facebook: #1877f2;
+  --color-contact-email: #ea4335;
+  --color-contact-form: #10b981;
+
+  --font-header: "Open Sans", sans-serif;
+  --font-all: "Figtree", sans-serif;
 }
 
-html{
-  scrollbar-gutter: stable;
-}
+@custom-variant dark (&:where(.dark , .dark *));
 
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        @keyframes slideInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-50px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        @keyframes scaleIn {
-          from {
-            opacity: 0;
-            transform: scale(0.8);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-        @keyframes pulse {
-          0%,
-          100% {
-            opacity: 0.1;
-          }
-          50% {
-            opacity: 0.2;
-          }
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.8s ease-out;
-        }
-        .animate-slide-in-left {
-          animation: slideInLeft 0.8s ease-out;
-        }
-        .animate-slide-in-left-delay {
-          animation: slideInLeft 0.8s ease-out 0.2s both;
-        }
-        .animate-slide-in-left-delay-2 {
-          animation: slideInLeft 0.8s ease-out 0.4s both;
-        }
-        .animate-scale-in {
-          animation: scaleIn 0.8s ease-out 0.3s both;
-        }
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-        .animate-float-delay {
-          animation: float 3s ease-in-out infinite 1.5s;
-        }
-        .animate-pulse {
-          animation: pulse 4s ease-in-out infinite;
-        }
-        .animate-pulse-delay {
-          animation: pulse 4s ease-in-out infinite 2s;
-        }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+.animate-slide-in-left {
+  animation: slideInLeft 0.8s ease-out;
+}
+.animate-slide-in-left-delay {
+  animation: slideInLeft 0.8s ease-out 0.2s both;
+}
+.animate-slide-in-left-delay-2 {
+  animation: slideInLeft 0.8s ease-out 0.4s both;
+}
+.animate-scale-in {
+  animation: scaleIn 0.8s ease-out 0.3s both;
+}
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+.animate-float-delay {
+  animation: float 3s ease-in-out infinite 1.5s;
+}
+.animate-pulse {
+  animation: pulse 4s ease-in-out infinite;
+}
+.animate-pulse-delay {
+  animation: pulse 4s ease-in-out infinite 2s;
+}

@@ -168,7 +168,7 @@ const Eventcarousel = ({ clubs }) => {
 
   if (!slides || slides.length === 0) {
     return (
-      <div className="h-[calc(100vh-4rem)] bg-background-secondary flex items-center justify-center">
+      <div className="h-[calc(100vh-4rem)] bg-background-secondary dark:bg-charcoal flex items-center justify-center">
         <p className="text-text-secondary text-xl">No slides available</p>
       </div>
     );
@@ -176,13 +176,13 @@ const Eventcarousel = ({ clubs }) => {
 
   return (
     <>
-      <div className="relative bg-background-secondary overflow-hidden">
+      <div className="relative bg-background-secondary dark:bg-charcoal overflow-hidden">
         {/* Main Carousel Container */}
         <div className="relative h-[calc(100vh-4rem)] flex items-center">
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-charcoal/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 transition-all duration-300 group"
+            className="absolute left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
           >
             <svg
               className="w-6 h-6 transform group-hover:-translate-x-1 transition-transform"
@@ -201,7 +201,7 @@ const Eventcarousel = ({ clubs }) => {
 
           <button
             onClick={nextSlide}
-            className="absolute right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-charcoal/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 transition-all duration-300 group"
+            className="absolute right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
           >
             <svg
               className="w-6 h-6 transform group-hover:translate-x-1 transition-transform"
@@ -238,16 +238,16 @@ const Eventcarousel = ({ clubs }) => {
                         >
                           {slide.category}
                         </span>
-                        <h1 className="text-6xl lg:text-7xl font-bold text-text mb-6 leading-tight animate-slide-in-left">
+                        <h1 className="text-6xl lg:text-7xl font-bold text-text dark:text-white mb-6 leading-tight animate-slide-in-left">
                           {slide.eventName}
                         </h1>
-                        <h2 className="text-xl lg:text-2xl font-bold text-text mb-6 leading-tight animate-slide-in-left">
-                          <p className="text-text-secondary mb-2 text-xl">
+                        <h2 className="text-xl lg:text-2xl font-bold text-text dark:text-white mb-6 leading-tight animate-slide-in-left">
+                          <p className="text-text-secondary dark:text-text-secondary-dark mb-2 text-xl">
                             organized by -
                           </p>{" "}
                           {slide.clubName}
                         </h2>
-                        <p className="text-lg text-text-secondary/80 mb-10 leading-relaxed animate-slide-in-left-delay">
+                        <p className="text-lg text-text-secondary/80 dark:text-text-secondary-dark mb-10 leading-relaxed animate-slide-in-left-delay">
                           {slide.eventDescription}
                         </p>
                       </div>
@@ -263,7 +263,7 @@ const Eventcarousel = ({ clubs }) => {
                         <Link
                           to={`/clubs/${slide.slideName}`}
                           state={getUtilityObject(slide.clubId , true)}
-                          className="text-text-secondary hover:text-text transition-colors duration-300 flex items-center space-x-2"
+                          className="text-text-secondary-dark hover:text-text dark:hover:text-white transition-colors duration-300 flex items-center space-x-2"
                         >
                           <span>Learn More</span>
                           <svg
@@ -313,7 +313,7 @@ const Eventcarousel = ({ clubs }) => {
                         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-charcoal/20"></div>
                       </div>
 
-                      {/* Floating Elements */}
+                      {/* Floating club short name */}
                       <div className="absolute -top-4 -right-4 p-2 bg-white/10 backdrop-blur-sm flex items-center justify-center animate-float rounded-md">
                         <div
                           className={` p-2 ${colors.accent} flex items-center justify-center`}
@@ -354,7 +354,7 @@ const Eventcarousel = ({ clubs }) => {
                 className={`w-3 h-3 hover:scale-105 rounded-full transition-all duration-300 ${
                   index === currentIndex
                     ? "bg-primary scale-125"
-                    : "bg-charcoal/30 hover:bg-charcoal/50"
+                    : "bg-charcoal/30 dark:bg-white hover:bg-charcoal/50 dark:hover:bg-white/50"
                 }`}
               />
             ))}
@@ -365,7 +365,7 @@ const Eventcarousel = ({ clubs }) => {
         <div className="absolute top-8 right-8 z-20">
           <button
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            className="w-12 h-12 bg-charcoal/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/40 transition-all duration-300"
+            className="w-12 h-12 bg-charcoal/20 dark:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/40 dark:hover:bg-white/40 transition-all duration-300"
           >
             {isAutoPlaying ? (
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

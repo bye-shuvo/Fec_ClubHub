@@ -53,8 +53,8 @@ const Committee = ({ club , colors }) => {
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="font-header text-5xl font-bold text-charcoal mb-4">Club Committee</h2>
-        <p className="text-lg text-text-secondary max-w-2xl mx-auto">
+        <h2 className="font-header text-5xl font-bold text-charcoal dark:text-white mb-4">Club Committee</h2>
+        <p className="text-lg text-text-secondary dark:text-text-secondary-dark max-w-2xl mx-auto">
           Meet our dedicated team of passionate students and leaders who make
           FECRIC a success.
         </p>
@@ -66,7 +66,7 @@ const Committee = ({ club , colors }) => {
             member.clubId === club.clubId && (
               <div
                 key={member.id}
-                className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
+                className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
               >
                 <div className="flex items-center space-x-4">
                   <img
@@ -75,11 +75,11 @@ const Committee = ({ club , colors }) => {
                     className="w-16 h-16 rounded-full"
                   />
                   <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-charcoal">
+                    <h3 className="text-lg font-semibold text-charcoal dark:text-white">
                       {member.name}
                     </h3>
                     <p className="text-blue-600 font-medium">{member.role}</p>
-                    <p className="text-sm text-text-secondary">
+                    <p className="text-sm text-text-secondary dark:text-text-secondary-dark">
                       {member.department}
                     </p>
                   </div>
