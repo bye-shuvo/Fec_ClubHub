@@ -4,101 +4,15 @@ import image1 from "../assets/photos/fecsa-banner.jpg";
 import image2 from "../assets/photos/fecpc-banner.jpg";
 import image3 from "../assets/photos/roverscout-banner.jpg";
 
-const Eventcarousel = ({ clubs }) => {
+const Eventcarousel = ({ clubs , getCategoryColors}) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   function getUtilityObject(id , isLearmMoreClicked) {
-    const club = clubs.find((club) => club.clubId === id);
-    const colors = getCategoryColors(club.category);
+    const club = clubs?.find((club) => club.clubId === id);
+    const colors = getCategoryColors(club?.category);
      return { club: club, colors: colors , isEventQuery : isLearmMoreClicked} 
   }
-
-  // Function to get category-specific colors
-  const getCategoryColors = (category) => {
-    switch (category) {
-      case "technology":
-        return {
-          accent: "bg-success",
-          text: "text-success",
-          border: "border-success/20",
-          hover: "hover:bg-success/10",
-          fill: "hover:fill-success",
-        };
-      case "innovation":
-        return {
-          accent: "bg-innovation",
-          text: "text-innovation",
-          border: "border-innovation/20",
-          hover: "hover:bg-innovation/10",
-          fill: "hover:fill-innovation",
-        };
-      case "creative":
-        return {
-          accent: "bg-cultural",
-          text: "text-cultural",
-          border: "border-cultural/20",
-          hover: "hover:bg-cultural/10",
-          fill: "hover:fill-cultural",
-        };
-      case "cultural":
-        return {
-          accent: "bg-cultural",
-          text: "text-cultural",
-          border: "border-cultural/20",
-          hover: "hover:bg-cultural/10",
-          fill: "hover:fill-cultural",
-        };
-      case "academic":
-        return {
-          accent: "bg-slide-accent",
-          text: "text-slide-accent",
-          border: "border-slide-accent/20",
-          hover: "hover:bg-slide-accent/10",
-          fill: "hover:fill-slide-accent",
-        };
-      case "professional":
-        return {
-          accent: "bg-primary",
-          text: "text-primary",
-          border: "border-primary/20",
-          hover: "hover:bg-primary/10",
-          fill: "hover:fill-primary",
-        };
-      case "religious":
-        return {
-          accent: "bg-technology",
-          text: "text-technology",
-          border: "border-technology/20",
-          hover: "hover:bg-technology/10",
-          fill: "hover:fill-technology",
-        };
-      case "community":
-        return {
-          accent: "bg-error-secondary",
-          text: "text-error-secondary",
-          border: "border-error-secondary",
-          hover: "hover:bg-error-secondary/10",
-          fill: "hover:fill-error-secondary",
-        };
-      case "sports":
-        return {
-          accent: "bg-warning",
-          text: "text-warning",
-          border: "border-warning/20",
-          hover: "hover:bg-warning/10",
-          fill: "hover:fill-warning",
-        };
-      default:
-        return {
-          accent: "bg-primary",
-          text: "text-primary",
-          border: "border-primary/20",
-          hover: "hover:bg-primary/10",
-          fill: "hover:fill-primary",
-        };
-    }
-  };
 
   const slides = [
     {
@@ -346,7 +260,7 @@ const Eventcarousel = ({ clubs }) => {
           </div>
 
           {/* Pagination Dots */}
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex space-x-4 z-50">
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex space-x-4 z-30">
             {slides.map((_, index) => (
               <button
                 key={index}
