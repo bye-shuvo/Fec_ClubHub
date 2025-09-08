@@ -107,7 +107,7 @@ const Navbar = ({ getCategoryColors }) => {
         {search !== "" && (
           <div
             id="search_modal"
-            className="min-w-sm dark:bg-charcoal-card absolute top-[4rem] right-4 z-50 p-4 rounded-b-lg space-y-5"
+            className="min-w-sm shadow bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] right-4 z-50 p-4 rounded-b-lg space-y-5"
           >
             {searchedClubs.length > 0 ? (
               searchedClubs.map((club, index) => {
@@ -116,10 +116,10 @@ const Navbar = ({ getCategoryColors }) => {
                   <Link
                     to={`/clubs/${club.name}`}
                     state={{ club: club , colors : colors}}
-                    className="h-10 flex items-center gap-3 hover:bg-background-secondary/20 rounded-sm cursor-pointer overflow-hidden transition-all duration-200 ease-in-out"
+                    className="h-10 flex items-center gap-3 hover:bg-charcoal/10 dark:hover:bg-background-secondary/5 rounded-sm cursor-pointer overflow-hidden transition-all duration-200 ease-in-out"
                   >
                     <img className="h-full object-fit" src={club.logo} alt="" />
-                    <p className="md:text-lg text-sm text-white">{club.name}</p>
+                    <p className="md:text-lg text-sm dark:text-white text-charcoal">{club.name}</p>
                   </Link>
                 );
               })

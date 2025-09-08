@@ -318,7 +318,7 @@ const Contacts = ({ club }) => {
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="font-header text-charcoal text-5xl font-bold mb-4">Contact Us</h2>
+        <h2 className="font-header text-charcoal dark:text-white text-5xl font-bold mb-4">Contact Us</h2>
         <p className="text-text-secondary text-lg max-w-2xl mx-auto">
           Join our club through various ways
         </p>

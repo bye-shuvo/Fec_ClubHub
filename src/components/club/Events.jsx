@@ -26,7 +26,7 @@ const Events = ({ club }) => {
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <h2 className="font-header text-5xl font-bold text-charcoal mb-4">Club Events</h2>
+        <h2 className="font-header text-5xl font-bold text-charcoal dark:text-white mb-4">Club Events</h2>
         <p className="text-lg text-text-secondary max-w-2xl mx-auto">
           Celebrating our milestones and successes that showcase the talent and
           dedication of our members.
