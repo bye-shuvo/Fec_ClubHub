@@ -4,21 +4,21 @@ import image1 from "../assets/photos/fecsa-banner.jpg";
 import image2 from "../assets/photos/fecpc-banner.jpg";
 import image3 from "../assets/photos/roverscout-banner.jpg";
 
-const Eventcarousel = ({ clubs , getCategoryColors}) => {
+const Eventcarousel = ({ clubs, getCategoryColors }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  function getUtilityObject(id , isLearmMoreClicked) {
+  function getUtilityObject(id, isLearmMoreClicked) {
     const club = clubs?.find((club) => club.clubId === id);
     const colors = getCategoryColors(club?.category);
-     return { club: club, colors: colors , isEventQuery : isLearmMoreClicked} 
+    return { club: club, colors: colors, isEventQuery: isLearmMoreClicked };
   }
 
   const slides = [
     {
       slideName: "FECSA",
       clubName: "Faridpur Engineering College Sports Association",
-      clubId: 7,
+      clubId: 3,
       category: "sports",
       eventName: "Tournament-2025",
       eventDescription:
@@ -31,7 +31,7 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
       slideName: "FECPC",
       clubName: "Faridpur Engineering College Photographic Club",
       category: "creative",
-      clubId: 8,
+      clubId: 5,
       eventName: "Take a photo - 2025",
       eventDescription:
         "Join The Photographic slide To Capture The Moments Of Life",
@@ -43,7 +43,7 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
       slideName: "FECRSG",
       clubName: "Faridpur Engineering College Rover Scout Group",
       category: "community",
-      clubId: 6,
+      clubId: 11,
       eventName: "Help the country - 2025",
       eventDescription:
         "Join Rover Scout For self-development and community service",
@@ -83,7 +83,9 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
   if (!slides || slides.length === 0) {
     return (
       <div className="h-[calc(100vh-4rem)] bg-background-secondary dark:bg-charcoal flex items-center justify-center">
-        <p className="text-text-secondary text-xl">No slides available</p>
+        <p className="text-text-secondary text-7xl font-bold">
+          No slides available
+        </p>
       </div>
     );
   }
@@ -96,10 +98,10 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
+            className="absolute md:left-8 left-3 md:top-1/2 top-[42%] -translate-y-1/2 z-30 md:h-12 md:w-12 h-10 w-10 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
           >
             <svg
-              className="w-6 h-6 transform group-hover:-translate-x-1 transition-transform"
+              className="md:h-6 md:w-6 h-4 w-4 transform group-hover:-translate-x-1 transition-transform"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -115,10 +117,10 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
 
           <button
             onClick={nextSlide}
-            className="absolute right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
+            className="absolute md:right-8 right-3 md:top-1/2 top-[42%] -translate-y-1/2 z-30 md:h-12 md:w-12 h-10 w-10 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
           >
             <svg
-              className="w-6 h-6 transform group-hover:translate-x-1 transition-transform"
+              className="md:h-6 md:w-6 h-4 w-4 transform group-hover:translate-x-1 transition-transform"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -133,7 +135,7 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
           </button>
 
           {/* Text Slides Container */}
-          <div className="absolute left-0 top-0 w-[40%] h-full z-20 overflow-hidden">
+          <div className="absolute left-0 md:top-0 top-[45%] lg:w-[40%] w-full lg:h-full h-[65%] z-20 overflow-hidden">
             <div
               className="flex w-full h-full transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -143,25 +145,25 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
                 return (
                   <div
                     key={index}
-                    className="w-full h-full flex-shrink-0 flex items-center px-16 lg:px-24"
+                    className="w-full h-full flex-shrink-0 flex md:items-center items-start pl-[5%] pr-[5%] lg:pr-0 lg:pl-[15%]"
                   >
-                    <div className="flex-1 z-10 max-w-xl">
-                      <div className="mb-8">
+                    <div className="flex-1 z-10 max-w-full">
+                      <div className="mb-5 md:mb-10">
                         <span
-                          className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${colors.accent} text-white mb-4 animate-fade-in`}
+                          className={`inline-block px-3 md:px-4 md:py-2 py-1 rounded-full text-sm font-semibold ${colors.accent} text-white md:mb-4 mb-2 animate-fade-in`}
                         >
                           {slide.category}
                         </span>
-                        <h1 className="text-6xl lg:text-7xl font-bold text-text dark:text-white mb-6 leading-tight animate-slide-in-left">
+                        <h2 className="lg:text-7xl text-4xl font-bold text-text dark:text-white md:mb-6 mb-3 leading-tight animate-slide-in-left">
                           {slide.eventName}
-                        </h1>
-                        <h2 className="text-xl lg:text-2xl font-bold text-text dark:text-white mb-6 leading-tight animate-slide-in-left">
-                          <p className="text-text-secondary dark:text-text-secondary-dark mb-2 text-xl">
+                        </h2>
+                        <h3 className="text-md md:text-2xl font-bold text-text dark:text-white mb-3 md:mb-6 leading-tight animate-slide-in-left">
+                          <p className="text-text-secondary dark:text-text-secondary-dark md:mb-2 mb-2 md:text-md text-md">
                             organized by -
                           </p>{" "}
                           {slide.clubName}
-                        </h2>
-                        <p className="text-lg text-text-secondary/80 dark:text-text-secondary-dark mb-10 leading-relaxed animate-slide-in-left-delay">
+                        </h3>
+                        <p className="text-sm md:text-lg text-text-secondary/80 dark:text-text-secondary-dark md:leading-loose animate-slide-in-left-delay">
                           {slide.eventDescription}
                         </p>
                       </div>
@@ -169,14 +171,14 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
                       <div className="flex items-center space-x-6 animate-slide-in-left-delay-2">
                         <Link
                           to={`/clubs/${slide.slideName}`}
-                          state={getUtilityObject(slide.clubId , false)}
-                          className={`${colors.text} ${colors.hover} px-8 py-4 rounded-lg font-semibold transition-all duration-300 border-2 ${colors.border} hover:scale-105 hover:shadow-lg`}
+                          state={getUtilityObject(slide.clubId, false)}
+                          className={`${colors.text} ${colors.hover} md:px-8 px-4 md:py-4 py-2 rounded-lg font-semibold transition-all duration-300 border-2 ${colors.border} hover:scale-105 hover:shadow-lg`}
                         >
                           Join Now
                         </Link>
                         <Link
                           to={`/clubs/${slide.slideName}`}
-                          state={getUtilityObject(slide.clubId , true)}
+                          state={getUtilityObject(slide.clubId, true)}
                           className="text-text-secondary-dark hover:text-text dark:hover:text-white transition-colors duration-300 flex items-center space-x-2"
                         >
                           <span>Learn More</span>
@@ -203,9 +205,9 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
           </div>
 
           {/* Image Slides Container */}
-          <div className="absolute right-0 top-0 w-[60%] h-full z-20 overflow-hidden">
+          <div className="absolute right-0 md:top-0 top-10 lg:w-[60%] w-full lg:h-full h-[35%] z-20 lg:overflow-hidden overflow-y-visible">
             <div
-              className="flex w-full h-full transition-transform duration-700 ease-in-out delay-200"
+              className="flex items-center w-full h-full transition-transform duration-700 ease-in-out delay-200"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
               {slides.map((slide, index) => {
@@ -215,9 +217,9 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
                     key={index}
                     className="w-full h-full flex-shrink-0 flex justify-center items-center relative"
                   >
-                    <div className="relative w-64 h-96 lg:w-[55rem] lg:h-[35rem] animate-scale-in">
+                    <div className="relative w-[90%] h-[90%] lg:w-[80%] lg:h-[65%] animate-scale-in">
                       {/* Image Container with Modern Styling */}
-                      <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl group">
+                      <div className="relative w-full h-full md:rounded-2xl rounded-md overflow-hidden shadow-2xl group">
                         <img
                           src={slide.eventPhoto}
                           alt={`${slide.slideName} banner`}
@@ -228,26 +230,26 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
                       </div>
 
                       {/* Floating club short name */}
-                      <div className="absolute -top-4 -right-4 p-2 bg-white/10 backdrop-blur-sm flex items-center justify-center animate-float rounded-md">
+                      <div className="absolute -top-4 -right-4 md:p-2 p-1 bg-white/10 backdrop-blur-sm flex items-center justify-center animate-float rounded-md">
                         <div
-                          className={` p-2 ${colors.accent} flex items-center justify-center`}
+                          className={`p-2 rounded-md ${colors.accent} flex items-center justify-center`}
                         >
-                          <span className="text-white font-bold text-xl">
+                          <span className="text-white font-bold md:text-xl text-md">
                             {slide.slideName}
                           </span>
                         </div>
                       </div>
 
                       {/* Event current type */}
-                      <div className="absolute overflow-hidden -bottom-6 -left-6 w-32 h-32 bg-white/5 backdrop-blur-sm rounded-2xl rotate-12 animate-float-delay">
+                      <div className="absolute overflow-hidden -bottom-4 md:-bottom-6 md:-left-6 -left-2 bg-white/5 backdrop-blur-sm rounded-2xl rotate-12 animate-float-delay">
                         <div
-                          className={`h-full w-full ${
+                          className={`py-5 md:py-12 px-4 md:px-8 ${
                             (slide.type === "Upcoming" && "bg-success") ||
                             (slide.type === "Running" && "bg-info") ||
                             "bg-red-500"
                           } flex items-center justify-center`}
                         >
-                          <span className="text-white font-bold text-xl">
+                          <span className="text-white font-bold md:text-xl text-md">
                             {slide.type}
                           </span>
                         </div>
@@ -260,12 +262,12 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
           </div>
 
           {/* Pagination Dots */}
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex space-x-4 z-30">
+          <div className="absolute md:bottom-12 bottom-4 left-1/2 -translate-x-1/2 flex space-x-4 z-30">
             {slides.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 hover:scale-105 rounded-full transition-all duration-300 ${
+                className={`md:w-3 md:h-3 h-2 w-2 hover:scale-105 rounded-full transition-all duration-300 ${
                   index === currentIndex
                     ? "bg-primary scale-125"
                     : "bg-charcoal/30 dark:bg-white hover:bg-charcoal/50 dark:hover:bg-white/50"
@@ -276,13 +278,13 @@ const Eventcarousel = ({ clubs , getCategoryColors}) => {
         </div>
 
         {/* Auto-play Indicator */}
-        <div className="absolute top-8 right-8 z-20">
+        <div className="absolute md:top-8 top-2 md:right-8 right-[85%] z-20">
           <button
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            className="w-12 h-12 bg-charcoal/20 dark:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/40 dark:hover:bg-white/40 transition-all duration-300"
+            className="md:w-12 w-10 md:h-12 h-10 bg-charcoal/20 dark:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/40 dark:hover:bg-white/40 transition-all duration-300"
           >
             {isAutoPlaying ? (
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <svg className="md:w-5 md:h-5 w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
               </svg>
             ) : (

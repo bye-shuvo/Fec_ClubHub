@@ -4,12 +4,12 @@ const Clubcards = ({clubs , getCategoryColors}) => {
   return (
     <div
       id="club-cards"
-      className="flex flex-col items-center w-full h-auto overflow-hidden bg-background-secondary dark:bg-charcoal py-12"
+      className="flex flex-col items-center w-full h-auto overflow-hidden bg-background-secondary dark:bg-charcoal md:py-12 py-[5%]"
     >
       {/* Section Header */}
-      <div className="text-center mb-12">
-        <h2 className="font-header text-6xl font-bold text-text dark:text-white mb-4">Our Clubs</h2>
-        <p className="text-xl text-text-secondary dark:text-text-secondary-dark max-w-2xl mx-auto">
+      <div className="text-center md:mb-12 mb-6">
+        <h2 className="font-header md:text-6xl text-4xl font-bold text-text dark:text-white md:mb-4 mb-3">Our Clubs</h2>
+        <p className="text-md md:text-xl text-text-secondary dark:text-text-secondary-dark max-w-2xl mx-auto">
           Discover amazing opportunities to learn, grow, and connect with
           like-minded students
         </p>
@@ -27,7 +27,7 @@ const Clubcards = ({clubs , getCategoryColors}) => {
               {/* Image Container */}
               <div className="relative overflow-hidden">
                 <img
-                  className="h-48 w-full object-center object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-[12rem] w-full object-center object-cover transition-transform duration-500 group-hover:scale-105"
                   src={club.logo}
                   alt={`${club.name} logo`}
                 />

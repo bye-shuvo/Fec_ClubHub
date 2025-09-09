@@ -110,7 +110,7 @@ const Home = () => {
     } , []);
 
   return (
-    <div className="font-all min-h-screen dark:bg-charcoal -z-30">
+    <div className="font-all min-h-[100dvh] dark:bg-charcoal -z-30 overflow-x-hidden">
       <Navbar getCategoryColors={getCategoryColors}/>
       <Eventcarousel clubs={clubs} getCategoryColors={getCategoryColors} />
       <Clubcards clubs={clubs} getCategoryColors={getCategoryColors}/>
