@@ -124,7 +124,7 @@ const Navbar = ({ getCategoryColors }) => {
                 );
               })
             ) : (
-              <div> No Club found </div>
+              <div className="dark:text-white"> No Club found </div>
             )}
           </div>
         )}
