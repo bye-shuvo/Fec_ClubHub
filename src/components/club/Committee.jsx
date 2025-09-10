@@ -21,7 +21,7 @@ const Committee = ({ club , colors }) => {
       id: 3,
       name: "Omar Khalil",
       role: "Secretary",
-      image: "https://via.placeholder.com/60x60/DC2626/FFFFFF?text=OK",
+      image: "https://i.ibb.co.com/fGzjmQDV/fecprogrammingclub.jpg",
       department: "Mechanical Engineering",
       clubId: 3,
     },
@@ -51,34 +51,34 @@ const Committee = ({ club , colors }) => {
     },
   ];
   return (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="font-header text-5xl font-bold text-charcoal dark:text-white mb-4">Club Committee</h2>
-        <p className="text-lg text-text-secondary dark:text-text-secondary-dark max-w-2xl mx-auto">
+    <div className="md:space-y-6 space-y-4">
+      <div className="text-center md:mb-8">
+        <h2 className="font-header md:text-5xl text-3xl font-bold text-charcoal dark:text-white mb-4">Club Committee</h2>
+        <p className="md:text-lg text-sm text-text-secondary dark:text-text-secondary-dark max-w-[95%] md:max-w-2xl mx-auto">
           Meet our dedicated team of passionate students and leaders who make
           FECRIC a success.
         </p>
-        <p className={`text-lg max-w-2xl ${colors.text} mx-auto font-semibold`}>Committee of 2025-26</p>
+        <p className={`md:text-lg text-sm md:max-w-2xl max-w-[95%] ${colors.text} mx-auto font-semibold`}>Committee of 2025-26</p>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-6 gap-3">
         {clubMembers.map(
           (member) =>
             member.clubId === club.clubId && (
               <div
                 key={member.id}
-                className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
+                className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 md:rounded-lg rounded-md shadow-md md:p-6 p-4 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
               >
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center md:space-x-4 space-x-3">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-16 h-16 rounded-full"
+                    className="md:w-16 md:h-16 h-12 w-12 rounded-full"
                   />
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-charcoal dark:text-white">
                       {member.name}
                     </h3>
-                    <p className="text-blue-600 font-medium">{member.role}</p>
+                    <p className="text-blue-600 font-medium md:text-md text-sm">{member.role}</p>
                     <p className="text-sm text-text-secondary dark:text-text-secondary-dark">
                       {member.department}
                     </p>

@@ -37,10 +37,10 @@ const Club = () => {
   return (
     <div className="font-all min-h-screen bg-background-secondary dark:bg-charcoal">
       {/* Banner Section */}
-      <div className={`group relative h-96 overflow-hidden`}>
-        <Link to="/" className="z-10 absolute top-10 left-10">
+      <div className={`group relative md:h-96 h-56 overflow-hidden`}>
+        <Link to="/" className="z-10 absolute md:top-10 md:left-10 top-2 left-2">
           <svg
-            className={`h-12 w-12 fill-white ${colors.fill} transition-colors duration-300 ease-in-out`}
+            className={`md:h-12 h-7 md:w-12 w-7 fill-white ${colors.fill} transition-colors duration-300 ease-in-out`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
           >
@@ -54,25 +54,25 @@ const Club = () => {
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className={`font-header text-6xl font-bold mb-4 ${colors.text}`}>
+            <h1 className={`font-header md:text-6xl text-3xl font-bold md:mb-4 mb-3 ${colors.text}`}>
               {club.name}
             </h1>
-            <p className="text-xl max-w-2xl mx-auto">{club.description}</p>
+            <p className="text-sm md:text-xl md:max-w-2xl max-w-[95%] mx-auto">{club.description}</p>
           </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
       <div
-        className={`shadow-md border-b border-border ${colors.hover} transition-colors duration-300 ease-in-out`}
+        className={`sticky top-0 shadow-md border-b border-border ${colors.hover} transition-colors duration-300 ease-in-out dark:bg-charcoal bg-background-secondary z-10`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="md:max-w-7xl max-w-[95%] mx-auto md::px-8 overflow-x-scroll whitespace-nowrap custom-scrollbar">
           <nav className="flex space-x-5">
             {tabSections.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`py-4 px-1 border-b-2 text-md ${
+                className={`md:py-4 py-3 px-1 border-b-2 md:text-md text-sm text-nowrap ${
                   activeTab === tab.id
                     ? `${colors.text} font-semibold`
                     : "border-transparent text-gray-500 dark:text-background-secondary/80 hover:text-gray-700 dark:hover:text-background-secondary hover:border-gray-300"

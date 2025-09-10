@@ -13,7 +13,7 @@ const Contacts = ({ club }) => {
           lebel: "Follow our page",
           logo: (
             <svg
-              className="fill-contact-facebook h-20 w-20"
+              className="fill-contact-facebook md:h-20 h-16 md:w-20 w-16 -z-10"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 640 640"
             >
@@ -29,7 +29,7 @@ const Contacts = ({ club }) => {
           link: "Email",
           logo: (
             <svg
-              className="fill-contact-email h-20 w-20"
+              className="fill-contact-email md:h-20 h-16 md:w-20 w-16 -z-10"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 640 640"
             >
@@ -45,7 +45,7 @@ const Contacts = ({ club }) => {
           link: "Form link to join",
           logo: (
             <svg
-              className="fill-contact-form h-20 w-20"
+              className="fill-contact-form md:h-20 h-16 md:w-20 w-16 -z-10"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 640 640"
             >
@@ -316,29 +316,30 @@ const Contacts = ({ club }) => {
   );
 
   return (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="font-header text-charcoal dark:text-white text-5xl font-bold mb-4">Contact Us</h2>
-        <p className="text-text-secondary text-lg max-w-2xl mx-auto">
+    <div className="space-x-4 md:space-y-6">
+      <div className="text-center md:mb-8 mb-4">
+        <h2 className="font-header text-charcoal dark:text-white text-4xl md:text-5xl font-bold md:mb-4 mb-3">Contact Us</h2>
+        <p className="text-text-secondary dark:text-text-secondary-dark md:text-lg text-sm max-w-[95%] md:max-w-2xl mx-auto">
           Join our club through various ways
         </p>
       </div>
       {contact ? (
-        <div className="grid grid-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-1 md:grid-cols-3 gap-3 md:gap-8">
           {contactMethods?.map((method, idx) => (
             <div
               key={`${method.category}-${idx}`}
-              className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 rounded-lg shadow-md p-6 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
+              className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 md:rounded-lg rounded-md shadow-md md:p-6 p-4 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
             >
-              <div className="flex flex-col items-start justify-between mb-4">
+              <div className="flex flex-col items-start justify-between mb-4 relative">
                 <div className="space-x-2">
                   {method.logo}
                   <h3 className="text-xl font-semibold text-text dark:text-white mb-2">
                     {method.category}
                   </h3>
                 </div>
+                <p className="absolute right-0 top-0 text-text-secondary dark:text-text-secondary-dark text-sm">Club Name</p>
                 {method.subtext ? (
-                  <p className="text-md text-text-secondary dark:text-text-secondary-dark mb-3">
+                  <p className="text-sm md:text-md text-text-secondary dark:text-text-secondary-dark mb-3">
                     {method.subtext}
                   </p>
                 ) : null}
