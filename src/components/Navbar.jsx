@@ -107,10 +107,10 @@ const Navbar = ({ getCategoryColors }) => {
         {search !== "" && (
           <div
             id="search_modal"
-            className="min-w-sm scroll-m-0 md:max-w-[27%] md:max-h-[70vh] max-h-[80vh] overflow-y-scroll shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5"
+            className="min-w-sm md:max-w-[27%] md:max-h-[70vh] max-h-[80vh] overflow-y-scroll shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5"
           >
             {searchedClubs.length > 0 ? (
-              searchedClubs.map((club, index) => {
+              searchedClubs.map((club) => {
                 const colors = getCategoryColors(club.category);
                 return (
                   <Link

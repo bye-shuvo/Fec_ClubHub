@@ -25,7 +25,7 @@
   --color-background-secondary: #f9fafb;
   --color-border: #e5e7eb;
   --color-surface: #f3f4f6;
-  --color-charcoal-card : #1f2937;
+  --color-charcoal-card: #1f2937;
 
   /* Specialty Colors */
   --color-club-accent: #8b5cf6;
@@ -58,6 +58,13 @@
 }
 
 @custom-variant dark (&:where(.dark , .dark *));
+
+@layer utilities {
+  .custom-scrollbar {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+}
 
 @keyframes fadeIn {
   from {
