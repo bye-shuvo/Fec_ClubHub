@@ -1,90 +1,74 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import image1 from "../assets/photos/fecsa-banner.jpg";
-import image2 from "../assets/photos/fecpc-banner.jpg";
-import image3 from "../assets/photos/roverscout-banner.jpg";
 
-const Eventcarousel = ({ clubs, getCategoryColors }) => {
+const Eventcarousel = ({ clubs , getCategoryColors }) => {
+  const [events , setEvents] = useState([]);
+  const eventIds = [1 , 2] ; //Events to fetch from server
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   function getUtilityObject(id, isLearmMoreClicked) {
-    const club = clubs?.find((club) => club.clubId === id);
+    const club = clubs ? clubs.find((club) => club.clubId === id) : null;
     const colors = getCategoryColors(club?.category);
     return { club: club, colors: colors, isEventQuery: isLearmMoreClicked };
   }
 
-  const slides = [
-    {
-      slideName: "FECSA",
-      clubName: "Faridpur Engineering College Sports Association",
-      clubId: 3,
-      category: "sports",
-      eventName: "Tournament-2025",
-      eventDescription:
-        "Join The Sports With The Only Sporting slide Of Faridpur Engineering College.",
-      eventPhoto: image1,
-      eventLink: "",
-      type: "Upcoming",
-    },
-    {
-      slideName: "FECPC",
-      clubName: "Faridpur Engineering College Photographic Club",
-      category: "creative",
-      clubId: 5,
-      eventName: "Take a photo - 2025",
-      eventDescription:
-        "Join The Photographic slide To Capture The Moments Of Life",
-      eventPhoto: image2,
-      eventLink: "",
-      type: "Running",
-    },
-    {
-      slideName: "FECRSG",
-      clubName: "Faridpur Engineering College Rover Scout Group",
-      category: "community",
-      clubId: 11,
-      eventName: "Help the country - 2025",
-      eventDescription:
-        "Join Rover Scout For self-development and community service",
-      eventPhoto: image3,
-      eventLink: "",
-      type: "Expired",
-    },
-  ];
+  const getEvents = async () =>{
+    if(!sessionStorage.getItem("events")) {
+      const response = await fetch("http://localhost:3001/v1/clubs/events" , {
+        method : "POST" ,
+        body : JSON.stringify({ids : eventIds}) ,
+        headers : {
+          "Content-Type" : "application/json"
+        }
+      });
+      const data = await response.json();
+      console.log(data);
+      setEvents(data);
+      sessionStorage.setItem("events" , JSON.stringify(data));
+    }
+    else {
+      setEvents(JSON.parse(sessionStorage.getItem("events")));
+    }
+  }
+
+  useEffect(()=>{
+    getEvents();
+    return () => setEvents([]);
+  } , []);
 
   // Auto-play functionality
   useEffect(() => {
-    if (!isAutoPlaying || slides.length <= 1) return;
+    if (!isAutoPlaying || events.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    }, 4000); // Change slide every 4 seconds
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % events.length);
+    }, 4000); // Change event every 4 seconds
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, slides.length]);
+  }, [isAutoPlaying, events.length]);
 
   // Handle manual navigation
-  const goToSlide = (index) => {
+  const goToevent = (index) => {
     setCurrentIndex(index);
     setIsAutoPlaying(false); // Pause auto-play when user interacts
     // Resume auto-play after 10 seconds
     setTimeout(() => setIsAutoPlaying(true), 6000);
   };
 
-  const nextSlide = () => {
-    goToSlide((currentIndex + 1) % slides.length);
+  const nextevent = () => {
+    goToevent((currentIndex + 1) % events.length);
   };
 
-  const prevSlide = () => {
-    goToSlide((currentIndex - 1 + slides.length) % slides.length);
+  const prevevent = () => {
+    goToevent((currentIndex - 1 + events.length) % events.length);
   };
 
-  if (!slides || slides.length === 0) {
+  if (!events || events.length === 0 || !clubs || clubs.length === 0) {
     return (
       <div className="h-[calc(100vh-4rem)] bg-background-secondary dark:bg-charcoal flex items-center justify-center">
         <p className="text-text-secondary text-7xl font-bold">
-          No slides available
+          No events available
         </p>
       </div>
     );
@@ -97,7 +81,7 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
         <div className="relative h-[calc(100vh-4rem)] flex items-center">
           {/* Navigation Arrows */}
           <button
-            onClick={prevSlide}
+            onClick={prevevent}
             className="absolute md:left-8 left-3 md:top-1/2 top-[42%] -translate-y-1/2 z-30 md:h-12 md:w-12 h-10 w-10 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
           >
             <svg
@@ -116,7 +100,7 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
           </button>
 
           <button
-            onClick={nextSlide}
+            onClick={nextevent}
             className="absolute md:right-8 right-3 md:top-1/2 top-[42%] -translate-y-1/2 z-30 md:h-12 md:w-12 h-10 w-10 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
           >
             <svg
@@ -134,14 +118,16 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
             </svg>
           </button>
 
-          {/* Text Slides Container */}
+          {/* Text events Container */}
           <div className="absolute left-0 md:top-0 top-[45%] lg:w-[40%] w-full lg:h-full h-[65%] z-20 overflow-hidden">
             <div
               className="flex w-full h-full transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              {slides.map((slide, index) => {
-                const colors = getCategoryColors(slide.category);
+              {events.map((event, index) => {
+                const club =
+                  clubs?.find((club) => club.clubId === event.clubId) || null;
+                const colors = getCategoryColors(club?.category);
                 return (
                   <div
                     key={index}
@@ -152,33 +138,33 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
                         <span
                           className={`inline-block px-3 md:px-4 md:py-2 py-1 rounded-full text-sm font-semibold ${colors.accent} text-white md:mb-4 mb-2 animate-fade-in`}
                         >
-                          {slide.category}
+                          {club.category}
                         </span>
-                        <h2 className="lg:text-7xl text-4xl font-bold text-text dark:text-white md:mb-6 mb-3 leading-tight animate-slide-in-left">
-                          {slide.eventName}
+                        <h2 className="lg:text-7xl text-4xl font-bold text-text dark:text-white md:mb-6 mb-3 leading-tight animate-event-in-left">
+                          {event.title}
                         </h2>
-                        <h3 className="text-md md:text-2xl font-bold text-text dark:text-white mb-3 md:mb-6 leading-tight animate-slide-in-left">
+                        <h3 className="text-md md:text-2xl font-bold text-text dark:text-white mb-3 md:mb-6 leading-tight animate-event-in-left">
                           <p className="text-text-secondary dark:text-text-secondary-dark md:mb-2 mb-2 md:text-md text-md">
                             organized by -
                           </p>{" "}
-                          {slide.clubName}
+                          {club.name}
                         </h3>
-                        <p className="text-sm md:text-lg text-text-secondary/80 dark:text-text-secondary-dark md:leading-loose animate-slide-in-left-delay">
-                          {slide.eventDescription}
+                        <p className="text-sm md:text-lg text-text-secondary/80 dark:text-text-secondary-dark md:leading-loose animate-event-in-left-delay">
+                          {event.description}
                         </p>
                       </div>
 
-                      <div className="flex items-center space-x-6 animate-slide-in-left-delay-2">
+                      <div className="flex items-center space-x-6 animate-event-in-left-delay-2">
                         <Link
-                          to={`/clubs/${slide.slideName}`}
-                          state={getUtilityObject(slide.clubId, false)}
+                          to={`/clubs/${club.shortName}`}
+                          state={getUtilityObject(event.clubId, false)}
                           className={`${colors.text} ${colors.hover} md:px-8 px-4 md:py-4 py-2 rounded-lg font-semibold transition-all duration-300 border-2 ${colors.border} hover:scale-105 hover:shadow-lg`}
                         >
                           Join Now
                         </Link>
                         <Link
-                          to={`/clubs/${slide.slideName}`}
-                          state={getUtilityObject(slide.clubId, true)}
+                          to={`/clubs/${club.shortName}`}
+                          state={getUtilityObject(event.clubId, true)}
                           className="text-text-secondary-dark hover:text-text dark:hover:text-white transition-colors duration-300 flex items-center space-x-2"
                         >
                           <span>Learn More</span>
@@ -204,14 +190,15 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
             </div>
           </div>
 
-          {/* Image Slides Container */}
+          {/* Image events Container */}
           <div className="absolute right-0 md:top-0 top-10 lg:w-[60%] w-full lg:h-full h-[35%] z-20 lg:overflow-hidden overflow-y-visible">
             <div
               className="flex items-center w-full h-full transition-transform duration-700 ease-in-out delay-200"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              {slides.map((slide, index) => {
-                const colors = getCategoryColors(slide.category);
+              {events.map((event, index) => {
+                const club = clubs?.find((club) => club.clubId === event.clubId) || null;
+                const colors = getCategoryColors(club.category);
                 return (
                   <div
                     key={index}
@@ -221,8 +208,8 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
                       {/* Image Container with Modern Styling */}
                       <div className="relative w-full h-full md:rounded-2xl rounded-md overflow-hidden shadow-2xl group">
                         <img
-                          src={slide.eventPhoto}
-                          alt={`${slide.slideName} banner`}
+                          src={event.image}
+                          alt={`${club.shortName} banner`}
                           className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                         />
                         {/* Gradient Overlay */}
@@ -235,22 +222,22 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
                           className={`p-2 rounded-md ${colors.accent} flex items-center justify-center`}
                         >
                           <span className="text-white font-bold md:text-xl text-md">
-                            {slide.slideName}
+                            {club.shortName}
                           </span>
                         </div>
                       </div>
 
-                      {/* Event current type */}
+                      {/* Event current status */}
                       <div className="absolute overflow-hidden -bottom-4 md:-bottom-6 md:-left-6 -left-2 bg-white/5 backdrop-blur-sm rounded-2xl rotate-12 animate-float-delay">
                         <div
                           className={`py-5 md:py-12 px-4 md:px-8 ${
-                            (slide.type === "Upcoming" && "bg-success") ||
-                            (slide.type === "Running" && "bg-info") ||
+                            (event.status === "Upcoming" && "bg-success") ||
+                            (event.status === "Ongoing" && "bg-info") ||
                             "bg-red-500"
                           } flex items-center justify-center`}
                         >
                           <span className="text-white font-bold md:text-xl text-md">
-                            {slide.type}
+                            {event.status}
                           </span>
                         </div>
                       </div>
@@ -263,10 +250,10 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
 
           {/* Pagination Dots */}
           <div className="absolute md:bottom-12 bottom-4 left-1/2 -translate-x-1/2 flex space-x-4 z-30">
-            {slides.map((_, index) => (
+            {events.map((_, index) => (
               <button
                 key={index}
-                onClick={() => goToSlide(index)}
+                onClick={() => goToevent(index)}
                 className={`md:w-3 md:h-3 h-2 w-2 hover:scale-105 rounded-full transition-all duration-300 ${
                   index === currentIndex
                     ? "bg-primary scale-125"
@@ -284,7 +271,11 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
             className="md:w-12 w-10 md:h-12 h-10 bg-charcoal/20 dark:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/40 dark:hover:bg-white/40 transition-all duration-300"
           >
             {isAutoPlaying ? (
-              <svg className="md:w-5 md:h-5 w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <svg
+                className="md:w-5 md:h-5 w-4 h-4"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
                 <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
               </svg>
             ) : (

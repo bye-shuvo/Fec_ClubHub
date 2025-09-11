@@ -17,7 +17,8 @@ const Clubcards = ({clubs , getCategoryColors}) => {
 
       {/* Club Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 gap-5 max-w-[90%] mx-auto px-4">
-        {clubs.map((club, index) => {
+        {clubs.length > 0 ? 
+        clubs.map((club, index) => {
           const colors = getCategoryColors(club.category);
           return (
             <div
@@ -62,8 +63,12 @@ const Clubcards = ({clubs , getCategoryColors}) => {
                 </div>
               </div>
             </div>
-          );
-        })}
+          )
+        }) : (
+          <div className="col-span-full text-center text-text-secondary dark:text-text-secondary-dark md:text-2xl text-lg font-bold">
+            No clubs found
+          </div>
+        )}
       </div>
     </div>
   );
