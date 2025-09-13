@@ -26,13 +26,7 @@ const Navbar = ({ getCategoryColors }) => {
 
   const findClub = async () => {
     if (search === "") return;
-    const response = await fetch("http://localhost:3001/v1/clubs/find", {
-      method: "POST",
-      body: JSON.stringify({ club: search }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(`http://localhost:3001/v1/clubs/search?club=${search}`);
     const data = await response.json();
     console.log(data);
     setSearchedClubs(data);
