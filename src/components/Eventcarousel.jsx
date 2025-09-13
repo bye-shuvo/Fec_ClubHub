@@ -15,7 +15,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
 
   const getEvents = async () =>{
     if(!sessionStorage.getItem("events")) {
-      const response = await fetch("http://localhost:3001/v1/clubs/events" , {
+      const response = await fetch("http://localhost:3001/v1/clubs/events/search" , {
         method : "POST" ,
         body : JSON.stringify({ids : eventIds}) ,
         headers : {

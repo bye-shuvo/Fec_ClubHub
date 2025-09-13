@@ -1,42 +1,31 @@
+import { useState, useEffect } from "react";
+
 const Achievements = ({ club }) => {
-  const clubAchievements = [
-    {
-      id: 1,
-      title: "1st Place - National Robotics Competition 2024",
-      description:
-        "Won the prestigious national robotics competition with our autonomous robot design",
-      year: "2024",
-      category: "Competition",
-      clubId: 3,
-    },
-    {
-      id: 2,
-      title: "Best Innovation Award - Tech Expo 2023",
-      description:
-        "Recognized for developing an innovative IoT-based environmental monitoring system",
-      year: "2023",
-      category: "Innovation",
-      clubId: 3,
-    },
-    {
-      id: 3,
-      title: "International Robotics Challenge Finalist",
-      description:
-        "Qualified for the international robotics challenge representing our country",
-      year: "2023",
-      category: "International",
-      clubId: 3,
-    },
-    {
-      id: 4,
-      title: "Community Service Excellence",
-      description:
-        "Awarded for organizing robotics workshops for underprivileged students",
-      year: "2023",
-      category: "Community",
-      clubId: 3,
-    },
-  ];
+  const [acheivements, setAcheivements] = useState([]);
+
+  const getAcheivements = async () => {
+    if (!sessionStorage.getItem(`event_${club.shortName}`)) {
+      const response = await fetch(
+        `http://localhost:3001/v1/clubs/achievements/search?clubId=${club.clubId}`
+      );
+      const data = await response.json();
+      setAcheivements(data);
+      console.log(data);
+      sessionStorage.setItem(
+        `acheivement_${club.shortName}`,
+        JSON.stringify(data)
+      );
+    } else {
+      setAcheivements(
+        JSON.parse(sessionStorage.getItem(`acheivement_${club.shortName}`))
+      );
+    }
+  };
+
+  useEffect(() => {
+    getAcheivements();
+  }, []);
+
   return (
     <div className="md:space-y-6 space-y-4">
       <div className="text-center md:mb-8">
@@ -48,11 +37,9 @@ const Achievements = ({ club }) => {
           dedication of our members.
         </p>
       </div>
-      {clubAchievements.some(
-        (achievement) => achievement.clubId === club.clubId
-      ) ? (
+      {acheivements && acheivements.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-6 gap-3">
-          {clubAchievements.map(
+          {acheivements?.map(
             (achievement) =>
               achievement.clubId === club.clubId && (
                 <div

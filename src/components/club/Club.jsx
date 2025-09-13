@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import Committee from "./Committee";
-import Acheivements from "./Acheivements";
+import Acheivements from "./Achievements";
 import Testimonials from "./Testimonials";
 import Events from "./Events";
 import Contacts from "./Contacts";

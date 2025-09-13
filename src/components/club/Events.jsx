@@ -6,7 +6,7 @@ const Events = ({ club }) => {
 
   const getEvents = async () =>{
     if(!sessionStorage.getItem(`event_${club.shortName}`)){
-      const response = await fetch(`http://localhost:3001/v1/clubs/events/?clubId=${club.clubId}`);
+      const response = await fetch(`http://localhost:3001/v1/clubs/events/search?clubId=${club.clubId}`);
       const data = await response.json();
       setEvents(data);
       console.log(data);
@@ -78,7 +78,7 @@ const Events = ({ club }) => {
             )}
           </div>
           <div className="space-y-6 md:space-x-4">
-            <h2 className="text-2xl md:text-3xl font-bold dark:text-white">Old Events</h2>
+            <h2 className="text-2xl md:text-3xl font-bold dark:text-white">Previous Events</h2>
             {events.some((event) => event.status === "Ended") ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-6 gap-3">
                 {events.map(
