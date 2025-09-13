@@ -1,28 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { data } from "react-router-dom";
 
 const Events = ({ club }) => {
-  const clubEvents = [
-    {
-      id: 4,
-      title: "TecnoFest-2025",
-      description:
-        "A Tech Fest for all the student of Faridpur Engineering College loaded with exiciting events.",
-      year: "2025",
-      category: "Competiton",
-      type: "upcoming",
-      clubId: 3,
-    },
-    {
-      id: 4,
-      title: "TecnoFest-2024",
-      description:
-        "A Tech Fest for all the student of Faridpur Engineering College loaded with exiciting events.",
-      year: "2024",
-      category: "Competiton",
-      type: "old",
-      clubId: 3,
-    },
-  ];
+  const [events ,setEvents] = useState([]);
+
+  const getEvents = async () =>{
+    if(!sessionStorage.getItem(`event_${club.shortName}`)){
+      const response = await fetch(`http://localhost:3001/v1/clubs/events/?clubId=${club.clubId}`);
+      const data = await response.json();
+      setEvents(data);
+      console.log(data);
+      sessionStorage.setItem(`event_${club.shortName}` , JSON.stringify(data));
+    }
+    else{
+      setEvents(JSON.parse(sessionStorage.getItem(`event_${club.shortName}`)));
+    }
+  }
+
+  useEffect(()=>{
+    getEvents();
+  } , []);
+
+
   return (
     <div className="space-y-6">
       <div className="text-center md:mb-8">
@@ -32,13 +31,13 @@ const Events = ({ club }) => {
           dedication of our members.
         </p>
       </div>
-      {clubEvents.some((event) => event.clubId === club.clubId) ? (
+      {events.some((event) => event.clubId === club.clubId) ? (
         <div className="space-y-6 md:space-x-4">
           <div className="space-y-6 md:space-x-4">
             <h2 className="text-2xl md:text-3xl font-bold dark:text-white">Upcoming Events</h2>
-            {clubEvents.some((event) => event.type === "upcoming") ? (
+            {events.some((event) => event.status === "upcoming") ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-6 gap-3">
-                {clubEvents.map(
+                {events.map(
                   (event) =>
                     event.clubId === club.clubId &&
                     event.type === "upcoming" && (
@@ -80,12 +79,12 @@ const Events = ({ club }) => {
           </div>
           <div className="space-y-6 md:space-x-4">
             <h2 className="text-2xl md:text-3xl font-bold dark:text-white">Old Events</h2>
-            {clubEvents.some((event) => event.type === "old") ? (
+            {events.some((event) => event.status === "Ended") ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-6 gap-3">
-                {clubEvents.map(
+                {events.map(
                   (event) =>
                     event.clubId === club.clubId &&
-                    event.type === "old" && (
+                    event.status === "Ended" && (
                       <div
                         key={event.id}
                         className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 md:rounded-lg rounded-md shadow-md md:p-6 p-4 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
