@@ -67,7 +67,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
   if (!events || events.length === 0 || !clubs || clubs.length === 0) {
     return (
       <div className="h-[calc(100vh-4rem)] bg-background-secondary dark:bg-charcoal flex items-center justify-center">
-        <p className="text-text-secondary text-7xl font-bold">
+        <p className="text-text-secondary md:text-7xl text-4xl font-bold text-center">
           No events available
         </p>
       </div>
@@ -124,7 +124,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
               className="flex w-full h-full transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              {events.map((event, index) => {
+              {events?.map((event, index) => {
                 const club =
                   clubs?.find((club) => club.clubId === event.clubId) || null;
                 const colors = getCategoryColors(club?.category);
@@ -140,21 +140,21 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
                         >
                           {club.category}
                         </span>
-                        <h2 className="lg:text-7xl text-4xl font-bold text-text dark:text-white md:mb-6 mb-3 leading-tight animate-event-in-left">
+                        <h2 className="lg:text-7xl text-4xl font-bold text-text dark:text-white md:mb-6 mb-3 leading-tight animate-slide-in-left">
                           {event.title}
                         </h2>
-                        <h3 className="text-md md:text-2xl font-bold text-text dark:text-white mb-3 md:mb-6 leading-tight animate-event-in-left">
+                        <h3 className="text-md md:text-2xl font-bold text-text dark:text-white mb-3 md:mb-6 leading-tight animate-slide-in-left">
                           <p className="text-text-secondary dark:text-text-secondary-dark md:mb-2 mb-2 md:text-md text-md">
                             organized by -
                           </p>{" "}
                           {club.name}
                         </h3>
-                        <p className="text-sm md:text-lg text-text-secondary/80 dark:text-text-secondary-dark md:leading-loose animate-event-in-left-delay">
+                        <p className="text-sm md:text-lg text-text-secondary/80 dark:text-text-secondary-dark md:leading-loose animate-slide-in-left-delay">
                           {event.description}
                         </p>
                       </div>
 
-                      <div className="flex items-center space-x-6 animate-event-in-left-delay-2">
+                      <div className="flex items-center space-x-6 animate-slide-in-left-delay-2">
                         <Link
                           to={`/clubs/${club.shortName}`}
                           state={getUtilityObject(event.clubId, false)}
