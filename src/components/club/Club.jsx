@@ -22,6 +22,17 @@ const Club = () => {
     { id: "contacts", label: "Contacts" },
   ];
 
+  //UseEffect for enabling dark mode
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const shouldUseDark = storedTheme ? storedTheme === "dark" : prefersDark;
+    document.documentElement.classList.toggle("dark", shouldUseDark);
+  }, []);
+
+
   useEffect(()=>{
     if(isEventQuery){
       setActiveTab("events");
@@ -72,7 +83,7 @@ const Club = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`md:py-4 py-3 px-1 border-b-2 md:text-md text-sm text-nowrap ${
+                className={`md:py-5 py-3 px-1 border-b-2 md:text-md text-sm text-nowrap ${
                   activeTab === tab.id
                     ? `${colors.text} font-semibold`
                     : "border-transparent text-gray-500 dark:text-background-secondary/80 hover:text-gray-700 dark:hover:text-background-secondary hover:border-gray-300"
