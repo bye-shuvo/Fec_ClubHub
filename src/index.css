@@ -29,9 +29,11 @@
 
   /* Specialty Colors */
   --color-club-accent: #8b5cf6;
-  --color-innovation: #f59e0b;
+  --color-innovation: #23aae2;
   --color-technology: #14b8a6;
   --color-cultural: #f97316;
+  --color-academic : #1434c2;
+  --color-sports : #2b3c48;
 
   /* Legacy Colors (keeping for compatibility) */
   --color-body: #f9fafb;

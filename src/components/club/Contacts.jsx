@@ -77,7 +77,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 2,
-      clubId: 2,
+      clubId: 6,
       methods: [
         {
           category: "Facebook",
@@ -95,7 +95,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 3,
-      clubId: 3,
+      clubId: 2,
       methods: [
         {
           category: "Facebook",
@@ -113,7 +113,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 4,
-      clubId: 4,
+      clubId: 7,
       methods: [
         {
           category: "Facebook",
@@ -131,7 +131,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 5,
-      clubId: 5,
+      clubId: 4,
       methods: [
         {
           category: "Facebook",
@@ -149,7 +149,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 6,
-      clubId: 6,
+      clubId: 11,
       methods: [
         {
           category: "Facebook",
@@ -167,7 +167,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 7,
-      clubId: 7,
+      clubId: 3,
       methods: [
         {
           category: "Facebook",
@@ -185,7 +185,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 8,
-      clubId: 8,
+      clubId: 5,
       methods: [
         {
           category: "Facebook",
@@ -203,7 +203,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 9,
-      clubId: 9,
+      clubId: 12,
       methods: [
         {
           category: "Facebook",
@@ -221,7 +221,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 10,
-      clubId: 10,
+      clubId: 9,
       methods: [
         {
           category: "Facebook",
@@ -239,7 +239,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 11,
-      clubId: 11,
+      clubId: 10,
       methods: [
         {
           category: "Facebook",
@@ -257,7 +257,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 12,
-      clubId: 12,
+      clubId: 14,
       methods: [
         {
           category: "Facebook",
@@ -275,7 +275,7 @@ const Contacts = ({ club }) => {
     },
     {
       id: 13,
-      clubId: 13,
+      clubId: 15,
       methods: [
         {
           category: "Facebook",
@@ -293,11 +293,29 @@ const Contacts = ({ club }) => {
     },
     {
       id: 14,
-      clubId: 14,
+      clubId: 13,
       methods: [
         {
           category: "Facebook",
           link: "https://www.facebook.com/profile.php?id=61565891374897",
+        },
+        {
+          category: "Email",
+          link: "Email",
+        },
+        {
+          category: "Form",
+          link: "Form link to join",
+        },
+      ],
+    },
+        {
+      id: 15,
+      clubId: 8,
+      methods: [
+        {
+          category: "Facebook",
+          link: "https://www.facebook.com/profile.php?id=100054171746201",
         },
         {
           category: "Email",

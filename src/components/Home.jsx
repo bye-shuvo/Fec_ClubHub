@@ -59,12 +59,12 @@ const Home = () => {
         };
       case "academic":
         return {
-          accent: "bg-club-accent",
-          text: "text-club-accent",
-          group_hover_text : "group-hover:text-club-accent",
-          border: "border-club-accent/20",
-          hover: "hover:bg-club-accent/10",
-          fill: "hover:fill-club-accent",
+          accent: "bg-academic",
+          text: "text-academic",
+          group_hover_text : "group-hover:text-academic",
+          border: "border-academic/20",
+          hover: "hover:bg-academic/10",
+          fill: "hover:fill-academic",
         };
       case "professional":
         return {
@@ -93,12 +93,22 @@ const Home = () => {
           hover: "hover:bg-error-secondary/10",
           fill: "hover:fill-error-secondary",
         };
+        case "sports" : 
+        return {
+          accent: "bg-sports",
+          text: "text-sports dark:text-text-secondary-dark",
+          group_hover_text : "group-hover:text-text-secondary-dark",
+          border: "border-sports",
+          hover: "hover:bg-sports/10",
+          fill: "hover:fill-sports",
+        };
       default:
         return {
-          accent: "bg-primary",
+          accent: "bg-sports",
           text: "text-primary",
           border: "border-primary/20",
           hover: "hover:bg-primary/10",
+          group_hover_text : "group-hover:text-primary",
           fill: "hover:fill-primary",
         };
     }
@@ -110,7 +120,7 @@ const Home = () => {
     } , []);
 
   return (
-    <div className="font-all min-h-[100vh] dark:bg-charcoal -z-30">
+    <div className="font-all min-h-[100vh] dark:bg-charcoal -z-30 mb-2">
       <Navbar getCategoryColors={getCategoryColors}/>
       <Eventcarousel clubs={clubs} getCategoryColors={getCategoryColors} />
       <Clubcards clubs={clubs} getCategoryColors={getCategoryColors}/>
