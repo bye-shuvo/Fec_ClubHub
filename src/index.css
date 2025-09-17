@@ -55,8 +55,13 @@
   --color-contact-email: #ea4335;
   --color-contact-form: #10b981;
 
+
+  /*  Custom Fonts */
   --font-header: "Open Sans", sans-serif;
   --font-all: "Figtree", sans-serif;
+
+  /* Custom breakpoints */
+  --breakpoint-xl : 97rem;
 }
 
 @custom-variant dark (&:where(.dark , .dark *));

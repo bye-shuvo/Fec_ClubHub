@@ -41,7 +41,6 @@ const Achievements = ({ club }) => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-6 gap-3">
           {acheivements?.map(
             (achievement) =>
-              achievement.clubId === club.clubId && (
                 <div
                   key={achievement.id}
                   className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 md:rounded-lg rounded-md shadow-md md:p-6 p-4 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
@@ -71,7 +70,6 @@ const Achievements = ({ club }) => {
                     {achievement.description}
                   </p>
                 </div>
-              )
           )}
         </div>
       ) : (

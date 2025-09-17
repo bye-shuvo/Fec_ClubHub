@@ -96,8 +96,8 @@ const Home = () => {
         case "sports" : 
         return {
           accent: "bg-sports",
-          text: "text-sports dark:text-text-secondary-dark",
-          group_hover_text : "group-hover:text-text-secondary-dark",
+          text: "text-sports",
+          group_hover_text : "group-hover:text-sports/5",
           border: "border-sports",
           hover: "hover:bg-sports/10",
           fill: "hover:fill-sports",
@@ -120,7 +120,7 @@ const Home = () => {
     } , []);
 
   return (
-    <div className="font-all min-h-[100vh] dark:bg-charcoal -z-30 mb-2">
+    <div className="font-all min-h-[100vh] dark:bg-charcoal -z-30 pb-2">
       <Navbar getCategoryColors={getCategoryColors}/>
       <Eventcarousel clubs={clubs} getCategoryColors={getCategoryColors} />
       <Clubcards clubs={clubs} getCategoryColors={getCategoryColors}/>

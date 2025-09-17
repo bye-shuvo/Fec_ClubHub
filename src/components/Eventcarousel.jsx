@@ -78,11 +78,11 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
     <>
       <div className="relative bg-background-secondary dark:bg-charcoal overflow-hidden">
         {/* Main Carousel Container */}
-        <div className="relative h-[calc(100vh-4rem)] flex items-center">
+        <div className="relative h-[calc(100dvh-4rem)] flex items-center">
           {/* Navigation Arrows */}
           <button
             onClick={prevevent}
-            className="absolute md:left-8 left-3 md:top-1/2 top-[42%] -translate-y-1/2 z-30 md:h-12 md:w-12 h-10 w-10 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
+            className="absolute md:left-2 left-1 md:top-1/2 top-[32%] -translate-y-1/2 z-30 md:h-12 md:w-12 h-8 w-8 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
           >
             <svg
               className="md:h-6 md:w-6 h-4 w-4 transform group-hover:-translate-x-1 transition-transform"
@@ -101,7 +101,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
 
           <button
             onClick={nextevent}
-            className="absolute md:right-8 right-3 md:top-1/2 top-[42%] -translate-y-1/2 z-30 md:h-12 md:w-12 h-10 w-10 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
+            className="absolute md:right-2 right-1 md:top-1/2 top-[32%] -translate-y-1/2 z-30 md:h-12 md:w-12 h-8 w-8 bg-charcoal/10 dark:bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/20 dark:hover:bg-white/20 transition-all duration-300 group"
           >
             <svg
               className="md:h-6 md:w-6 h-4 w-4 transform group-hover:translate-x-1 transition-transform"
@@ -119,7 +119,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
           </button>
 
           {/* Text events Container */}
-          <div className="absolute left-0 md:top-0 top-[45%] lg:w-[40%] w-full lg:h-full h-[65%] z-20 overflow-hidden">
+          <div className="absolute left-0 md:top-0 top-[35%] w-full lg:w-[40%] xl:w-[40%] h-[60%] lg:h-full z-20 overflow-hidden md:overflow-y-hidden overflow-y-scroll">
             <div
               className="flex w-full h-full transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -131,16 +131,16 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
                 return (
                   <div
                     key={index}
-                    className="w-full h-full flex-shrink-0 flex md:items-center items-start pl-[5%] pr-[5%] lg:pr-0 lg:pl-[15%]"
+                    className="w-full h-full flex-shrink-0 flex md:items-center items-start pl-[5%] lg:pl-[10%] pr-[5%] lg:pr-2 xl:pl-[8%] "
                   >
-                    <div className="flex-1 z-10 max-w-full">
-                      <div className="mb-5 md:mb-10">
+                    <div className="flex-1 z-10 max-w-full min-h-[95%] flex flex-col items-start justify-center">
+                      <div className="mb-5 xl:mb-10 lg:mb-8">
                         <span
-                          className={`inline-block px-3 md:px-4 md:py-2 py-1 rounded-full text-sm font-semibold ${colors.accent} text-white md:mb-4 mb-2 animate-fade-in`}
+                          className={`inline-block px-3 md:px-4 md:py-2 py-1 rounded-full text-sm font-semibold ${colors.accent} text-white md:mb-4 mb-1 animate-fade-in`}
                         >
                           {club.category}
                         </span>
-                        <h2 className="lg:text-7xl text-4xl font-bold text-text dark:text-white md:mb-6 mb-3 leading-tight animate-slide-in-left">
+                        <h2 className="xl:text-7xl lg:text-5xl text-3xl font-bold text-text dark:text-white md:mb-6 mb-3 leading-tight animate-slide-in-left">
                           {event.title}
                         </h2>
                         <h3 className="text-md md:text-2xl font-bold text-text dark:text-white mb-3 md:mb-6 leading-tight animate-slide-in-left">
@@ -149,7 +149,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
                           </p>{" "}
                           {club.name}
                         </h3>
-                        <p className="text-sm md:text-lg text-text-secondary/80 dark:text-text-secondary-dark md:leading-loose animate-slide-in-left-delay">
+                        <p className="text-sm md:text-lg text-text-secondary/80 dark:text-text-secondary-dark animate-slide-in-left-delay xl:leading-loose">
                           {event.description}
                         </p>
                       </div>
@@ -191,7 +191,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
           </div>
 
           {/* Image events Container */}
-          <div className="absolute right-0 md:top-0 top-10 lg:w-[60%] w-full lg:h-full h-[35%] z-20 lg:overflow-hidden overflow-y-visible">
+          <div className="absolute right-0 md:top-0 top-3 w-full lg:w-[60%] xl:w-[60%] h-[30%] lg:h-full z-20 md:overflow-hidden overflow-y-visible">
             <div
               className="flex items-center w-full h-full transition-transform duration-700 ease-in-out delay-200"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -204,16 +204,16 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
                     key={index}
                     className="w-full h-full flex-shrink-0 flex justify-center items-center relative"
                   >
-                    <div className="relative w-[90%] h-[90%] lg:w-[80%] lg:h-[65%] animate-scale-in">
+                    <div className="relative w-[90%] h-[90%] lg:max-w-[90%] lg:max-h-[65%] animate-scale-in" >
                       {/* Image Container with Modern Styling */}
-                      <div className="relative w-full h-full md:rounded-2xl rounded-md overflow-hidden shadow-2xl group">
+                      <div className="flex flex-shrink-0 relative w-full h-full md:rounded-2xl rounded-md overflow-hidden shadow-xl group">
                         <img
                           src={event.image}
                           alt={`${club.shortName} banner`}
-                          className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                          className="w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                         />
                         {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-charcoal/20"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-charcoal/30"></div>
                       </div>
 
                       {/* Floating club short name */}
@@ -221,7 +221,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
                         <div
                           className={`p-2 rounded-md ${colors.accent} flex items-center justify-center`}
                         >
-                          <span className="text-white font-bold md:text-xl text-md">
+                          <span className="text-white font-bold md:text-xl text-sm">
                             {club.shortName}
                           </span>
                         </div>
@@ -230,13 +230,13 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
                       {/* Event current status */}
                       <div className="absolute overflow-hidden -bottom-4 md:-bottom-6 md:-left-6 -left-2 bg-white/5 backdrop-blur-sm rounded-2xl rotate-12 animate-float-delay">
                         <div
-                          className={`py-5 md:py-12 px-4 md:px-8 ${
+                          className={`py-4 lg:py-8 xl:py-10 px-4 lg:px-9 xl:px-10  ${
                             (event.status === "Upcoming" && "bg-success") ||
                             (event.status === "Ongoing" && "bg-info") ||
                             "bg-red-500"
                           } flex items-center justify-center`}
                         >
-                          <span className="text-white font-bold md:text-xl text-md">
+                          <span className="text-white font-bold md:text-xl text-sm">
                             {event.status}
                           </span>
                         </div>
@@ -249,7 +249,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
           </div>
 
           {/* Pagination Dots */}
-          <div className="absolute md:bottom-12 bottom-4 left-1/2 -translate-x-1/2 flex space-x-4 z-30">
+          <div className="absolute md:bottom-4 bottom-5 left-1/2 -translate-x-1/2 flex space-x-4 z-30">
             {events.map((_, index) => (
               <button
                 key={index}
@@ -265,10 +265,10 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
         </div>
 
         {/* Auto-play Indicator */}
-        <div className="absolute md:top-8 top-2 md:right-8 right-[85%] z-20">
+        <div className="absolute md:top-8 top-7 md:right-8 right-[85%] z-20">
           <button
             onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-            className="md:w-12 w-10 md:h-12 h-10 bg-charcoal/20 dark:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/40 dark:hover:bg-white/40 transition-all duration-300"
+            className="md:w-12 w-8 md:h-12 h-8 bg-charcoal/50 dark:bg-white/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-charcoal/40 dark:hover:bg-white/40 transition-all duration-300"
           >
             {isAutoPlaying ? (
               <svg

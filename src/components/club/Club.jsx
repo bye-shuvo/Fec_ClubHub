@@ -12,10 +12,10 @@ const Club = () => {
 
   console.log("Club from the state : ", club);
 
-  const [activeTab, setActiveTab] = useState("members");
+  const [activeTab, setActiveTab] = useState("committee");
 
   const tabSections = [
-    { id: "members", label: "Club Committee" },
+    { id: "committee", label: "Club Committee" },
     { id: "achievements", label: "Achievements" },
     { id: "events", label: "Events" },
     { id: "testimonials", label: "Testimonials" },
@@ -41,7 +41,7 @@ const Club = () => {
       return ;
     }
     return () =>{
-      setActiveTab("members");
+      setActiveTab("committee");
     }
   } , []);
 
@@ -99,7 +99,7 @@ const Club = () => {
       {/* Content Sections */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {
-          (activeTab === "members") && (<Committee club={club} colors={colors}/>) ||
+          (activeTab === "committee") && (<Committee club={club} colors={colors}/>) ||
           (activeTab === "achievements") && (<Acheivements club={club} />) ||
           (activeTab === "testimonials") && (<Testimonials club={club} />) || 
           (activeTab === "events") && (<Events club = {club}/>) ||

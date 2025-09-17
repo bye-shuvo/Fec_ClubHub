@@ -44,7 +44,7 @@ const Navbar = ({ getCategoryColors }) => {
         </h1>
         <div className="flex md:gap-4 gap-2 items-center">
           {/* search box */}
-          <label className="relative flex items-center bg-gray-50 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-700 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-200 md:px-3 px-1 py-2 md:py-3 max-w-[10rem] md:max-w-[15rem]">
+          <label className="relative flex items-center bg-gray-50 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-700 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-200 md:px-3 px-1 py-2 md:py-3 max-w-[10rem] md:max-w-[15rem] md:min-w-[16rem]">
             <svg
               className="w-7 md:h-6 md:w-6 text-gray-400 dark:text-gray-300 md:mr-2 mr-1"
               xmlns="http://www.w3.org/2000/svg"

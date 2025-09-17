@@ -1,30 +1,69 @@
+import { useEffect, useState } from "react";
+
 const Testimonials = ({ club }) => {
-  const clubTestimonials = [
-    {
-      id: 1,
-      name: "Ahmed Hassan",
-      role: "Club President",
-      image: "https://via.placeholder.com/80x80/4F46E5/FFFFFF?text=AH",
-      text: "Being part of FECRIC has transformed my perspective on technology. The hands-on experience with robotics and the collaborative environment have been invaluable for my career development.",
-      clubId: 1,
-    },
-    {
-      id: 2,
-      name: "Fatima Ali",
-      role: "Vice President",
-      image: "https://i.ibb.co.com/fGzjmQDV/fecprogrammingclub.jpg",
-      text: "The club has given me opportunities to lead projects and work with amazing people. The skills I've learned here are directly applicable to my future career in engineering.",
-      clubId: 2,
-    },
-    {
-      id: 3,
-      name: "Omar Khalil",
-      role: "Secretary",
-      image: "https://i.ibb.co.com/fGzjmQDV/fecprogrammingclub.jpg",
-      text: "FECRIC is more than just a club - it's a family. The mentorship and support from senior members have helped me grow both technically and personally.",
-      clubId: 3,
-    },
-  ];
+  const [testimonials, setTestimonials] = useState([]);
+  const [members, setMembers] = useState([]);
+
+  //Getting member ids from each testimonials
+
+  const getMembers = async (data) => {
+    let memberIds = [];
+    data.map((testimonial) => {
+      memberIds.push(testimonial.memberId);
+    });
+    const member_response = await fetch(
+      `http://localhost:3001/v1/clubs/committee/search`,
+      {
+        method: "POST",
+        body: JSON.stringify({ ids: memberIds }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const member_data = await member_response.json();
+    setMembers(member_data);
+          sessionStorage.setItem(
+        `testimonial_members_${club.shortName}`,
+        JSON.stringify(member_data)
+      );
+      console.log(member_data);
+  };
+
+  //Route for finding testimonials
+
+  const getTestimonials = async () => {
+    if (!sessionStorage.getItem(`testimonial_${club.shortName}`)) {
+      const testimonial_response = await fetch(
+        `http://localhost:3001/v1/clubs/testimonials/search?clubId=${club.clubId}`
+      );
+      const testimonial_data = await testimonial_response.json();
+      setTestimonials(testimonial_data);
+
+      getMembers(testimonial_data);
+
+      sessionStorage.setItem(
+        `testimonial_${club.shortName}`,
+        JSON.stringify(testimonial_data)
+      );
+    } else {
+      setTestimonials(
+        JSON.parse(sessionStorage.getItem(`testimonial_${club.shortName}`))
+      );
+      setMembers(
+        JSON.parse(sessionStorage.getItem(`testimonial_members_${club.shortName}`))
+      );
+    }
+  };
+
+  const findMember = (memberId) =>{
+    return members.find((member) => member.id === memberId);
+  }
+
+  useEffect(() => {
+    getTestimonials();
+  }, []);
+
   return (
     <div className="space-y-4 md:space-y-6">
       <div className="text-center md:mb-8">
@@ -36,36 +75,32 @@ const Testimonials = ({ club }) => {
           impacted their journey.
         </p>
       </div>
-      {clubTestimonials.some(
-        (testimonial) => testimonial.clubId === club.clubId
-      ) ? (
+      {testimonials && testimonials.length > 0 && members && members.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {clubTestimonials.map(
-            (testimonial) =>
-              testimonial.clubId === club.clubId && (
-                <div
-                  key={testimonial.id}
-                  className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 md:rounded-lg rounded-md shadow-md p-4 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
-                >
-                  <div className="text-center mb-3">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="md:w-20 md:h-20 h-18 w-18 rounded-full mx-auto mb-2"
-                    />
-                    <h3 className="text-lg font-semibold text-charcoal dark:text-white">
-                      {testimonial.name}
-                    </h3>
-                    <p className="text-blue-600 font-medium md:text-md text-sm">
-                      {testimonial.role}
-                    </p>
-                  </div>
-                  <blockquote className="text-text-secondary dark:text-text-secondary-dark italic text-center text-[0.9rem] leading-6">
-                    "{testimonial.text}"
-                  </blockquote>
-                </div>
-              )
-          )}
+          {testimonials.map((testimonial) => {
+            const member = findMember(testimonial.memberId);
+            return <div
+              key={testimonial.id}
+              className="bg-white dark:bg-charcoal-card dark:hover:bg-background-secondary/5 md:rounded-lg rounded-md shadow-md p-4 hover:shadow-lg hover:scale-102 transition-all duration-150 ease-in-out"
+            >
+              <div className="text-center mb-3">
+                <img
+                  src={member?.avatarUrl}
+                  alt={member?.name}
+                  className="md:w-20 md:h-20 h-18 w-18 rounded-full mx-auto mb-2"
+                />
+                <h3 className="text-lg font-semibold text-charcoal dark:text-white">
+                  {member?.name}
+                </h3>
+                <p className="text-blue-600 font-medium md:text-md text-sm">
+                  {testimonial.member_type}
+                </p>
+              </div>
+              <blockquote className="text-text-secondary dark:text-text-secondary-dark italic text-center text-[0.9rem] leading-6">
+                "{testimonial.message}"
+              </blockquote>
+            </div>
+})}
         </div>
       ) : (
         <div className="mx-auto font-bold text-xl md:text-2xl text-text-secondary dark:text-text-secondary-dark text-center">
