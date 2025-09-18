@@ -1,11 +1,13 @@
-import { useRef } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = ({ getCategoryColors }) => {
   const [isDark, setIsDark] = useState(false);
   const [search, setSearch] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
   const [searchedClubs, setSearchedClubs] = useState([]);
+  const timer = useRef(null);
+  const delay = 2000;
 
   //UseEffect for enabling dark mode
   useEffect(() => {
@@ -24,17 +26,27 @@ const Navbar = ({ getCategoryColors }) => {
     localStorage.setItem("theme", !isDark ? "dark" : "light");
   };
 
-  const findClub = async () => {
-    if (search === "") return;
-    const response = await fetch(`http://localhost:3001/v1/clubs/search?club=${search}`);
+  const findClub = async (value) => {
+    if (value.trim() === "") return;
+    const response = await fetch(
+      `http://localhost:3001/v1/clubs/search?club=${value}`
+    );
     const data = await response.json();
-    console.log(data);
     setSearchedClubs(data);
+    setIsSearching(false);
   };
 
-  useEffect(() => {
-    findClub();
-  }, [search]);
+  //Debouncing for search query
+  const debounce = (value) => {
+    clearTimeout(timer.current);
+    setSearch(value);
+    setSearchedClubs([]);
+    setIsSearching(true);
+    timer.current = setTimeout(() => {
+      //code for api call
+      findClub(value);
+    }, delay);
+  };
 
   return (
     <>
@@ -62,9 +74,8 @@ const Navbar = ({ getCategoryColors }) => {
               id="club_search"
               type="search"
               placeholder="Search for a club"
-              onChange={(e) => {
-                setSearch(e.target.value);
-              }}
+              value={search}
+              onChange={(e) => {debounce(e.target.value)}}
               className="bg-transparent outline-none text-gray-700 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 w-full text-sm md:text-md"
             />
           </label>
@@ -98,28 +109,42 @@ const Navbar = ({ getCategoryColors }) => {
             />
           </label>
         </div>
-        {search !== "" && (
+        {search.trim() !== "" && (
           <div
             id="search_modal"
-            className="min-w-sm md:max-w-[27%] md:max-h-[70vh] max-h-[80vh] overflow-y-scroll shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5"
+            className="custom-scrollbar min-w-sm md:max-w-[27%] md:max-h-[70vh] max-h-[80vh] overflow-y-scroll shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5"
           >
-            {searchedClubs.length > 0 ? (
+            {isSearching && (
+              <div className="dark:text-white md:text-md text-sm text-center">
+                Finding...
+              </div>
+            )}
+            {searchedClubs.length > 0 && !isSearching? (
               searchedClubs.map((club) => {
                 const colors = getCategoryColors(club.category);
                 return (
                   <Link
                     key={club.name}
                     to={`/clubs/${club.name}`}
-                    state={{ club: club , colors : colors}}
+                    state={{ club: club, colors: colors }}
                     className="h-8 md:h-12 flex items-center gap-2 md:gap-3 hover:bg-charcoal/10 dark:hover:bg-background-secondary/5 rounded-sm cursor-pointer overflow-hidden transition-all duration-200 ease-in-out"
                   >
-                    <img className="h-full w-14 object-center object-cover" src={club.logo} alt={club.name.slice(0 , 1)} />
-                    <p className="md:text-lg text-sm dark:text-white text-charcoal">{club.name}</p>
+                    <img
+                      className="h-full w-14 object-center object-cover"
+                      src={club.logo}
+                      alt={club.name.slice(0, 1)}
+                    />
+                    <p className="md:text-lg text-sm dark:text-white text-charcoal">
+                      {club.name}
+                    </p>
                   </Link>
                 );
               })
             ) : (
-              <div className="dark:text-white md:text-lg text-sm text-center"> No Club found </div>
+              !isSearching &&
+              <div className="dark:text-white md:text-md text-sm text-center">
+                No Club Found
+              </div>
             )}
           </div>
         )}
