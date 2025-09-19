@@ -8,10 +8,7 @@ import Contacts from "./Contacts";
 
 const Club = () => {
   const location = useLocation();
-  const {club , colors , isEventQuery} = location.state;
-
-  console.log("Club from the state : ", club);
-
+  const { club, colors, isEventQuery } = location.state;
   const [activeTab, setActiveTab] = useState("committee");
 
   const tabSections = [
@@ -32,24 +29,25 @@ const Club = () => {
     document.documentElement.classList.toggle("dark", shouldUseDark);
   }, []);
 
-
-  useEffect(()=>{
-    if(isEventQuery){
+  useEffect(() => {
+    if (isEventQuery) {
       setActiveTab("events");
+    } else {
+      return;
     }
-    else{
-      return ;
-    }
-    return () =>{
+    return () => {
       setActiveTab("committee");
-    }
-  } , []);
+    };
+  }, []);
 
   return (
     <div className="font-all min-h-screen bg-background-secondary dark:bg-charcoal">
       {/* Banner Section */}
       <div className={`group relative md:h-96 h-56 overflow-hidden`}>
-        <Link to="/" className="z-10 absolute md:top-10 md:left-10 top-2 left-2">
+        <Link
+          to="/"
+          className="z-10 absolute md:top-10 md:left-10 top-2 left-2"
+        >
           <svg
             className={`md:h-12 h-7 md:w-12 w-7 fill-white ${colors.fill} transition-colors duration-300 ease-in-out`}
             xmlns="http://www.w3.org/2000/svg"
@@ -65,10 +63,14 @@ const Club = () => {
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-white">
-            <h1 className={`font-header md:text-6xl text-3xl font-bold md:mb-4 mb-3 ${colors.text}`}>
+            <h1
+              className={`font-header md:text-6xl text-3xl font-bold md:mb-4 mb-3 ${colors.text}`}
+            >
               {club.name}
             </h1>
-            <p className="text-sm md:text-xl md:max-w-2xl max-w-[95%] mx-auto">{club.description}</p>
+            <p className="text-sm md:text-xl md:max-w-2xl max-w-[95%] mx-auto">
+              {club.description}
+            </p>
           </div>
         </div>
       </div>
@@ -98,13 +100,13 @@ const Club = () => {
 
       {/* Content Sections */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {
-          (activeTab === "committee") && (<Committee club={club} colors={colors}/>) ||
-          (activeTab === "achievements") && (<Acheivements club={club} />) ||
-          (activeTab === "testimonials") && (<Testimonials club={club} />) || 
-          (activeTab === "events") && (<Events club = {club}/>) ||
-          (activeTab === "contacts") && (<Contacts club = {club}/>)
-          }
+        {(activeTab === "committee" && (
+          <Committee club={club} colors={colors} />
+        )) ||
+          (activeTab === "achievements" && <Acheivements club={club} />) ||
+          (activeTab === "testimonials" && <Testimonials club={club} />) ||
+          (activeTab === "events" && <Events club={club} />) ||
+          (activeTab === "contacts" && <Contacts club={club} />)}
       </div>
     </div>
   );

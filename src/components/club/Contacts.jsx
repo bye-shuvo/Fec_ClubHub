@@ -5,7 +5,7 @@ const [contacts , setContacts] = useState([]);
 
 const getContacts = async () =>{
   if(!sessionStorage.getItem(`contacts_${club.clubId}`)){
-    const response = await fetch(`http://localhost:3001/v1/clubs/contacts/search?clubId=${club.clubId}`);
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/contacts/search?clubId=${club.clubId}`);
     const data = await response.json();
     setContacts(data);
     sessionStorage.setItem(`contacts_${club.clubId}` , JSON.stringify(data));

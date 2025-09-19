@@ -6,7 +6,7 @@ const Events = ({ club }) => {
   const getEvents = async () => {
     if (!sessionStorage.getItem(`event_${club.shortName}`)) {
       const response = await fetch(
-        `http://localhost:3001/v1/clubs/events/search?clubId=${club.clubId}`
+        `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/search?clubId=${club.clubId}`
       );
       const data = await response.json();
       setEvents(data);

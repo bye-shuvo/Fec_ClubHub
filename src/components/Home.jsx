@@ -10,7 +10,7 @@ const Home = () => {
       setClubs(JSON.parse(sessionStorage.getItem("clubs")));
     }
     else{
-      const response = await fetch("http://localhost:3001/v1/clubs");
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs`);
       const data = await response.json();
       console.log(data);
       setClubs(data);
