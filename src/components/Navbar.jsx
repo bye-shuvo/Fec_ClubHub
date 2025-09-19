@@ -29,7 +29,7 @@ const Navbar = ({ getCategoryColors }) => {
   const findClub = async (value) => {
     if (value.trim() === "") return;
     const response = await fetch(
-      `http://localhost:3001/v1/clubs/search?club=${value}`
+      `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/search?club=${value}`
     );
     const data = await response.json();
     setSearchedClubs(data);
