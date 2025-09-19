@@ -124,7 +124,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
               className="flex w-full h-full transition-transform duration-700 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              {events?.map((event, index) => {
+              {events && events?.map((event, index) => {
                 const club =
                   clubs?.find((club) => club.clubId === event.clubId) || null;
                 const colors = getCategoryColors(club?.category);
@@ -196,7 +196,7 @@ const Eventcarousel = ({ clubs , getCategoryColors }) => {
               className="flex items-center w-full h-full transition-transform duration-700 ease-in-out delay-200"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              {events.map((event, index) => {
+              {events && events?.map((event, index) => {
                 const club = clubs?.find((club) => club.clubId === event.clubId) || null;
                 const colors = getCategoryColors(club.category);
                 return (
