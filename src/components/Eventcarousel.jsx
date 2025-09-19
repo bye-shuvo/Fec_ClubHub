@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Eventcarousel = ({ clubs , getCategoryColors }) => {
   const [events , setEvents] = useState([]);
-  const eventIds = [1 , 2 , 3] ; //Events to fetch from server
+  const eventIds = [1 , 2 , 3 , 4] ; //Events to fetch from server
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
