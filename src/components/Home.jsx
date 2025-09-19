@@ -4,6 +4,7 @@ import Eventcarousel from "./Eventcarousel";
 import Navbar from "./Navbar";
 
 const Home = () => {
+  console.log(import.meta.env.VITE_BACKEND_SERVER_URL);
   const [clubs , setClubs] = useState([]);
   const fetchClubs = async () => {
     if(sessionStorage.getItem("clubs")){
@@ -12,7 +13,6 @@ const Home = () => {
     else{
       const response = await fetch(`${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs`);
       const data = await response.json();
-      console.log(data);
       setClubs(data);
       sessionStorage.setItem("clubs" , JSON.stringify(data));
     }
