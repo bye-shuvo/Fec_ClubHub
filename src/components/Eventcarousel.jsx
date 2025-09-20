@@ -5,7 +5,7 @@ import Skeleton from "./Skeleton.jsx"
 const Eventcarousel = ({ clubs, getCategoryColors }) => {
   const [events, setEvents] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
-  let eventIds = []; //Events to fetch from server
+  const [eventIds , setEventIds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -15,14 +15,14 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
     return { club: club, colors: colors, isEventQuery: isLearmMoreClicked };
   }
 
-  const getEventIDs = async () =>{
+  const getEventIds = async () =>{
         if (!sessionStorage.getItem("events_ids")) {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/current`);
       const data = await response.json();
-      eventIds = JSON.parse(data[0].eventIds.replace( /\s+/g , ''));
+      setEventIds(JSON.parse(data[0].eventIds.replace( /\s+/g , '')));
       sessionStorage.setItem("events_ids", data[0].eventIds);
     } else {
-      eventIds = JSON.parse(sessionStorage.getItem("events_ids"));
+      setEventIds(JSON.parse(sessionStorage.getItem("events_ids")));
     }
   }
 
@@ -48,7 +48,7 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
   };
 
   useEffect(() => {
-    getEventIDs();
+    getEventIds();
     getEvents();
     return () => setEvents([]);
   }, []);

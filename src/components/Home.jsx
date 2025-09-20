@@ -4,7 +4,6 @@ import Eventcarousel from "./Eventcarousel";
 import Navbar from "./Navbar";
 
 const Home = () => {
-  console.log(import.meta.env.VITE_BACKEND_SERVER_URL);
   const [clubs , setClubs] = useState([]);
   const [isFetching , setIsFetching] = useState(true);
   const fetchClubs = async () => {
