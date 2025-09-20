@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Skeleton from "./Skeleton.jsx"
 
 const Eventcarousel = ({ clubs, getCategoryColors }) => {
-  const [events, setEvents] = useState(null);
+  const [events, setEvents] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -45,6 +45,7 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
       sessionStorage.setItem("events", JSON.stringify(data));
     } else {
       setEvents(JSON.parse(sessionStorage.getItem("events")));
+      setIsFetching(false);
     }
   };
 

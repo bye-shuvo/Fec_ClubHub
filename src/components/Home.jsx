@@ -9,6 +9,7 @@ const Home = () => {
   const fetchClubs = async () => {
     if(sessionStorage.getItem("clubs")){
       setClubs(JSON.parse(sessionStorage.getItem("clubs")));
+      setIsFetching(false);
     }
     else{
       const response = await fetch(`${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs`);
