@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 const Home = () => {
   console.log(import.meta.env.VITE_BACKEND_SERVER_URL);
   const [clubs , setClubs] = useState([]);
+  const [isFetching , setIsFetching] = useState(true);
   const fetchClubs = async () => {
     if(sessionStorage.getItem("clubs")){
       setClubs(JSON.parse(sessionStorage.getItem("clubs")));
@@ -14,6 +15,7 @@ const Home = () => {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs`);
       const data = await response.json();
       setClubs(data);
+      setIsFetching(false);
       sessionStorage.setItem("clubs" , JSON.stringify(data));
     }
   }
@@ -122,8 +124,8 @@ const Home = () => {
   return (
     <div className="font-all min-h-[100vh] dark:bg-charcoal -z-30 pb-2">
       <Navbar getCategoryColors={getCategoryColors}/>
-      <Eventcarousel clubs={clubs} getCategoryColors={getCategoryColors} />
-      <Clubcards clubs={clubs} getCategoryColors={getCategoryColors}/>
+      <Eventcarousel clubs={clubs} getCategoryColors={getCategoryColors}/>
+      <Clubcards clubs={clubs} getCategoryColors={getCategoryColors} isFetching={isFetching}/>
     </div>
   );
 };
