@@ -5,7 +5,7 @@ import Skeleton from "./Skeleton.jsx"
 const Eventcarousel = ({ clubs, getCategoryColors }) => {
   const [events, setEvents] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
-  const eventIds = [4, 3, 2 , 1]; //Events to fetch from server
+  let eventIds = []; //Events to fetch from server
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -13,6 +13,17 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
     const club = clubs ? clubs.find((club) => club.clubId === id) : null;
     const colors = getCategoryColors(club?.category);
     return { club: club, colors: colors, isEventQuery: isLearmMoreClicked };
+  }
+
+  const getEventIDs = async () =>{
+        if (!sessionStorage.getItem("events_ids")) {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/current`);
+      const data = await response.json();
+      eventIds = JSON.parse(data.eventIds);
+      sessionStorage.setItem("events_ids", data);
+    } else {
+      eventIds = JSON.parse(sessionStorage.getItem("events_ids"));
+    }
   }
 
   const getEvents = async () => {
@@ -37,6 +48,7 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
   };
 
   useEffect(() => {
+    getEventIDs();
     getEvents();
     return () => setEvents([]);
   }, []);
