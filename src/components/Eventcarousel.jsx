@@ -19,8 +19,8 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
         if (!sessionStorage.getItem("events_ids")) {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/current`);
       const data = await response.json();
-      eventIds = JSON.parse(data.eventIds.replace( /\s+/g , ''));
-      sessionStorage.setItem("events_ids", data.eventIds);
+      eventIds = JSON.parse(data[0].eventIds.replace( /\s+/g , ''));
+      sessionStorage.setItem("events_ids", data[0].eventIds);
     } else {
       eventIds = JSON.parse(sessionStorage.getItem("events_ids"));
     }
