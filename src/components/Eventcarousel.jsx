@@ -3,9 +3,8 @@ import { Link } from "react-router-dom";
 import Skeleton from "./Skeleton.jsx"
 
 const Eventcarousel = ({ clubs, getCategoryColors }) => {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const [eventIds , setEventIds] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
@@ -16,17 +15,19 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
   }
 
   const getEventIds = async () =>{
-        if (!sessionStorage.getItem("events_ids")) {
+      if (!sessionStorage.getItem("events_ids")) {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/current`);
       const data = await response.json();
-      setEventIds(JSON.parse(data[0].eventIds.replace( /\s+/g , '')));
       sessionStorage.setItem("events_ids", data[0].eventIds);
+      const parsedValue = JSON.parse(data[data?.length - 1].eventIds.replace( /\s+/g , ''));
+      return parsedValue ;
     } else {
-      setEventIds(JSON.parse(sessionStorage.getItem("events_ids")));
+      const parsedValue = JSON.parse(sessionStorage.getItem("events_ids"));
+      return parsedValue ;
     }
   }
 
-  const getEvents = async () => {
+  const getEvents = async (eventIds) => {
     if (!sessionStorage.getItem("events")) {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/search`,
@@ -48,8 +49,11 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
   };
 
   useEffect(() => {
-    getEventIds();
-    getEvents();
+    (async () =>{
+      const eventIds = await getEventIds();
+      await getEvents(eventIds);
+    }
+    )();
     return () => setEvents([]);
   }, []);
 
