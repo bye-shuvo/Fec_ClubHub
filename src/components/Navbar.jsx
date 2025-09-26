@@ -1,11 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  signInWithGoogle,
+  signOutUser,
+  onAuthStateChanged,
+  auth,
+} from "../lib/firebase_user_authentication.js";
+import SignIn from "./SignIn.jsx";
 
 const Navbar = ({ getCategoryColors }) => {
+  const [user, setUser] = useState(null);
   const [isDark, setIsDark] = useState(false);
   const [search, setSearch] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [searchedClubs, setSearchedClubs] = useState([]);
+  const [userLoginOpen, setUserLoginOpen] = useState(false);
+  const [userLoginTab, setUserLoginTab] = useState("user");
+  const [presidentCode, setPresidentCode] = useState("");
+  const [isVerifying, setIsVerifying] = useState(false);
+  const [verifyError, setVerifyError] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const timer = useRef(null);
   const delay = 2000;
 
@@ -51,14 +66,15 @@ const Navbar = ({ getCategoryColors }) => {
   return (
     <>
       <nav className="flex items-center justify-between flex-shrink-0 sticky top-0 left-0 z-40 px-4 py-3 w-full h-[4rem] bg-white/60 dark:bg-gray-900/70 backdrop-blur-xl border-b-2 border-gray-200 dark:border-gray-700 shadow-sm">
-        <h1 className="text-nowrap font-header font-extrabold md:text-[2.5rem] text-[1.7rem] text-center text-primary dark:text-white hover:text-primary-dark dark:hover:text-primary-light transition-colors duration-200 ease-in-out mr-4">
+        <h1 className="text-nowrap font-header font-extrabold md:text-[2.5rem] text-[1.7rem] text-center text-primary dark:text-white hover:text-primary-dark dark:hover:text-primary transition-colors duration-200 ease-in-out mr-4">
           FEC ClubHub
         </h1>
         <div className="flex md:gap-4 gap-2 items-center">
+          
           {/* search box */}
-          <label className="relative flex items-center bg-gray-50 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-700 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-200 md:px-3 px-1 py-2 md:py-3 max-w-[10rem] md:max-w-[15rem] md:min-w-[16rem]">
+          <label className="relative flex items-center bg-gray-50 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-700 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all duration-200 md:px-3 px-1 py-2 md:py-[10px] max-w-[10rem] md:max-w-[15rem] md:min-w-[16rem]">
             <svg
-              className="w-7 md:h-6 md:w-6 text-gray-400 dark:text-gray-300 md:mr-2 mr-1"
+              className="w-7 md:h-5 md:w-6 text-gray-400 dark:text-gray-300 md:mr-2 mr-1"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="none"
@@ -75,12 +91,15 @@ const Navbar = ({ getCategoryColors }) => {
               type="search"
               placeholder="Search for a club"
               value={search}
-              onChange={(e) => {debounce(e.target.value)}}
+              onChange={(e) => {
+                debounce(e.target.value);
+              }}
               className="bg-transparent outline-none text-gray-700 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 w-full text-sm md:text-md"
             />
           </label>
+
           {/* Theme toggler */}
-          <label className="relative md:p-6 p-5 flex justify-center items-center bg-gray-50 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-all duration-200 cursor-pointer select-none">
+          <label className="relative md:p-5 p-5 flex justify-center items-center bg-gray-50 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-all duration-200 cursor-pointer select-none">
             <svg
               className={`absolute md:h-8 md:w-8 h-6 w-6  fill-amber-400 transition-all duration-300 ${
                 isDark ? "opacity-0 rotate-90" : "opacity-100 rotate-0"
@@ -108,8 +127,11 @@ const Navbar = ({ getCategoryColors }) => {
               className="absolute inset-0 opacity-0 cursor-pointer h-full w-full"
             />
           </label>
+
+          {/* Component to handle user signin */}
+          <SignIn />
         </div>
-        {search.trim() !== "" && (
+        {search.trim() && (
           <div
             id="search_modal"
             className="custom-scrollbar min-w-sm md:max-w-[27%] md:max-h-[70vh] max-h-[80vh] overflow-y-scroll shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5"
@@ -119,33 +141,32 @@ const Navbar = ({ getCategoryColors }) => {
                 Finding...
               </div>
             )}
-            {searchedClubs.length > 0 && !isSearching? (
-              searchedClubs.map((club) => {
-                const colors = getCategoryColors(club.category);
-                return (
-                  <Link
-                    key={club.name}
-                    to={`/clubs/${club.name}`}
-                    state={{ club: club, colors: colors }}
-                    className="h-8 md:h-12 flex items-center gap-2 md:gap-3 hover:bg-charcoal/10 dark:hover:bg-background-secondary/5 rounded-sm cursor-pointer overflow-hidden transition-all duration-200 ease-in-out"
-                  >
-                    <img
-                      className="h-full w-14 object-center object-cover"
-                      src={club.logo}
-                      alt={club.name.slice(0, 1)}
-                    />
-                    <p className="md:text-lg text-sm dark:text-white text-charcoal">
-                      {club.name}
-                    </p>
-                  </Link>
-                );
-              })
-            ) : (
-              !isSearching &&
-              <div className="dark:text-white md:text-md text-sm text-center">
-                No Club Found
-              </div>
-            )}
+            {searchedClubs.length > 0 && !isSearching
+              ? searchedClubs.map((club) => {
+                  const colors = getCategoryColors(club.category);
+                  return (
+                    <Link
+                      key={club.name}
+                      to={`/clubs/${club.name}`}
+                      state={{ club: club, colors: colors }}
+                      className="h-8 md:h-12 flex items-center gap-2 md:gap-3 hover:bg-charcoal/10 dark:hover:bg-background-secondary/5 rounded-sm cursor-pointer overflow-hidden transition-all duration-200 ease-in-out"
+                    >
+                      <img
+                        className="h-full w-14 object-center object-cover"
+                        src={club.logo}
+                        alt={club.name.slice(0, 1)}
+                      />
+                      <p className="md:text-lg text-sm dark:text-white text-charcoal">
+                        {club.name}
+                      </p>
+                    </Link>
+                  );
+                })
+              : !isSearching && (
+                  <div className="dark:text-white md:text-md text-sm text-center">
+                    No Club Found
+                  </div>
+                )}
           </div>
         )}
       </nav>

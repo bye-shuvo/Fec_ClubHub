@@ -57,9 +57,9 @@ const Skeleton = ({ type }) => {
       >
         {/* Club Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 gap-5 max-w-[90%] mx-auto px-4">
-          {Array.from({length : 8}).map(() => {
+          {Array.from({length : 8}).map((_ , index) => {
             return (
-              <div className="bg-text-secondary/40 dark:bg-text-secondary-dark/30 md:rounded-xl rounded-lg shadow-lg overflow-hidden animate-pulse">
+              <div key={index} className="bg-text-secondary/40 dark:bg-text-secondary-dark/30 md:rounded-xl rounded-lg shadow-lg overflow-hidden animate-pulse">
                 {/* Image Container */}
                 <div className="bg-text-secondary/40 dark:bg-text-secondary-dark/30 relative h-[8rem] w-[70vw] md:h-[15rem] md:w-[30rem] overflow-hidden">
                   {/* Category Badge */}
