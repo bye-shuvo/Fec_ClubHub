@@ -264,8 +264,9 @@ const SignIn = () => {
           </div>
           {isAdmin && (
             <Link
-              className="block text-center w-full md:py-2 py-1.5 rounded-lg bg-primary hover:bg-primary-light transition dark:text-white"
               to="/admin/dashboard"
+              state={{ accessToken:presidentCode }}
+              className="block text-center w-full md:py-2 py-1.5 rounded-lg bg-primary hover:bg-primary-light transition dark:text-white"
             >
               Admin Panel
             </Link>

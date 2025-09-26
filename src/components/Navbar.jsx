@@ -1,26 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  signInWithGoogle,
-  signOutUser,
-  onAuthStateChanged,
-  auth,
-} from "../lib/firebase_user_authentication.js";
 import SignIn from "./SignIn.jsx";
 
 const Navbar = ({ getCategoryColors }) => {
-  const [user, setUser] = useState(null);
   const [isDark, setIsDark] = useState(false);
   const [search, setSearch] = useState("");
   const [isSearching, setIsSearching] = useState(false);
   const [searchedClubs, setSearchedClubs] = useState([]);
-  const [userLoginOpen, setUserLoginOpen] = useState(false);
-  const [userLoginTab, setUserLoginTab] = useState("user");
-  const [presidentCode, setPresidentCode] = useState("");
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [verifyError, setVerifyError] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const timer = useRef(null);
   const delay = 2000;
 
