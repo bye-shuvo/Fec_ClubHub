@@ -120,7 +120,7 @@ const Navbar = ({ getCategoryColors }) => {
         {search.trim() && (
           <div
             id="search_modal"
-            className="custom-scrollbar min-w-sm md:max-w-[27%] md:max-h-[70vh] max-h-[80vh] overflow-y-scroll shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5"
+            className="custom-scrollbar w-full md:w-[27%] md:max-h-[70vh] max-h-[85vh] overflow-y-scroll shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5"
           >
             {isSearching && (
               <div className="dark:text-white md:text-md text-sm text-center">

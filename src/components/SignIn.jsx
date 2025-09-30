@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import {
   signInWithGoogle,
   signOutUser,
-  onAuthStateChanged,
   auth,
 } from "../lib/firebase_user_authentication.js";
+import { onAuthStateChanged } from "firebase/auth";
 
 const SignIn = () => {
   const [user, setUser] = useState(null);
@@ -17,14 +17,20 @@ const SignIn = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  //User signin using firebase authentication
+  //User signIn Authentication details using firebase authentication
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      sessionStorage.setItem("firebase-admin-email", user?.email);
-      user && setIsLoggedIn(true);
-    });
-    return () => unsub();
+    try {
+      const handleAuthChange = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setUser(user);
+          sessionStorage.setItem("firebase-admin-email", user?.email);
+          user && setIsLoggedIn(true);
+        }
+        return () => handleAuthChange();
+      });
+    } catch (error) {
+      console.error({ message: error.message });
+    }
   }, []);
 
   useEffect(() => {
@@ -33,6 +39,7 @@ const SignIn = () => {
       "firebase-admin-email"
     );
     if (user?.email === authenticatedUserEmail && user?.role === "admin") {
+      sessionStorage.setItem("presidentCode" , presidentCode);
       setIsAdmin(true);
     }
   }, []);
@@ -58,7 +65,10 @@ const SignIn = () => {
       sessionStorage.setItem("admin-login-data", JSON.stringify(data));
       if (data) {
         await signInWithGoogle();
-        if (data?.role === "admin" && data?.email === sessionStorage.getItem("firebase-admin-email")) {
+        if (
+          data?.role === "admin" &&
+          data?.email === sessionStorage.getItem("firebase-admin-email")
+        ) {
           setIsAdmin(true);
         }
       } else {
@@ -81,12 +91,12 @@ const SignIn = () => {
         onClick={() => {
           setUserLoginOpen(!userLoginOpen);
         }}
-        className="cursor-pointer p-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700"
+        className="h-10 w-10 cursor-pointer p-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700"
         aria-label="Open login"
       >
         {!user ? (
           <svg
-            className="h-8 w-8 dark:fill-white fill-primary"
+            className="h-full w-full dark:fill-white fill-primary"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 640 640"
           >
@@ -96,14 +106,14 @@ const SignIn = () => {
           <img
             src={user?.photoURL}
             alt={user?.displayName || "User"}
-            className="h-8 w-8 rounded-full"
+            className="h-full w-full rounded-full"
           />
         )}
       </button>
       {userLoginOpen && !isLoggedIn && (
         <div
           id="login-modal"
-          className="custom-scrollbar min-w-sm md:max-w-[27%] md:max-h-[70vh] max-h-[80vh] overflow-y-scroll shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5"
+          className="w-full md:w-[27%] shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] right-0 md:right-2 z-50 p-4 rounded-b-lg space-y-5"
         >
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-semibold dark:text-white text-charcoal">
@@ -124,7 +134,7 @@ const SignIn = () => {
                 setUserLoginTab("user");
                 setVerifyError("");
               }}
-              className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition border ${
+              className={`md:flex-1 px-3 py-2 rounded-md text-sm font-medium transition border ${
                 userLoginTab === "user"
                   ? "bg-primary text-white border-primary"
                   : "bg-gray-100 dark:bg-gray-800 dark:text-white border-gray-200 dark:border-gray-700"
@@ -137,7 +147,7 @@ const SignIn = () => {
                 setUserLoginTab("president");
                 setVerifyError("");
               }}
-              className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition border ${
+              className={`md:flex-1 px-3 py-2 rounded-md text-sm font-medium transition border ${
                 userLoginTab === "president"
                   ? "bg-primary text-white border-primary"
                   : "bg-gray-100 dark:bg-gray-800 dark:text-white border-gray-200 dark:border-gray-700"
@@ -153,9 +163,9 @@ const SignIn = () => {
                 Sign in to personalize your ClubHub experience.
               </p>
               <button
-                onClick={() => {
+                onClick={async () => {
                   try {
-                    signInWithGoogle();
+                    await signInWithGoogle();
                     setUserLoginOpen(false);
                   } catch (e) {
                     console.error("Google sign-in error", e.message);
@@ -164,30 +174,11 @@ const SignIn = () => {
                 className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-md bg-primary text-white hover:bg-primary-dark transition"
               >
                 <svg
-                  className="h-5 w-5 bg-white rounded-sm"
-                  viewBox="0 0 533.5 544.3"
+                  className="h-5 w-5 bg-white rounded-full"
                   xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 640 640"
                 >
-                  <path
-                    fill="#4285F4"
-                    d="M533.5 278.4c0-18.6-1.7-36.6-5-54H272v102.2h146.9c-6.3 34.1-25.2 63-53.9 82.3v68h87.2c51 47 80.3 116.2 80.3 197.6z"
-                    transform="translate(0 -70)"
-                  />
-                  <path
-                    fill="#34A853"
-                    d="M272 614.3c72.7 0 133.7-24 178.3-65.4l-87.2-68c-24.2 16.2-55.1 25.8-91.1 25.8-69.9 0-129.2-47.2-150.5-110.7H31.6v69.5C76.1 562.2 167.2 614.3 272 614.3z"
-                    transform="translate(0 -70)"
-                  />
-                  <path
-                    fill="#FBBC05"
-                    d="M121.5 396c-5.6-16.2-8.8-33.5-8.8-51.3s3.2-35.1 8.8-51.3V224H31.6C11.3 264.5 0 311.3 0 361s11.3 96.5 31.6 137l89.9-69.5z"
-                    transform="translate(0 -70)"
-                  />
-                  <path
-                    fill="#EA4335"
-                    d="M272 210.2c39.5 0 75 13.6 102.9 40.2l77.2-77.2C405.5 117.2 344.5 94 272 94 167.2 94 76.1 146.1 31.6 224l89.9 69.5C142.8 257.4 202.1 210.2 272 210.2z"
-                    transform="translate(0 -70)"
-                  />
+                  <path className="fill-charcoal" d="M564 325.8C564 467.3 467.1 568 324 568C186.8 568 76 457.2 76 320C76 182.8 186.8 72 324 72C390.8 72 447 96.5 490.3 136.9L422.8 201.8C334.5 116.6 170.3 180.6 170.3 320C170.3 406.5 239.4 476.6 324 476.6C422.2 476.6 459 406.2 464.8 369.7L324 369.7L324 284.4L560.1 284.4C562.4 297.1 564 309.3 564 325.8z" />
                 </svg>
                 Continue with Google
               </button>
@@ -265,7 +256,10 @@ const SignIn = () => {
           {isAdmin && (
             <Link
               to="/admin/dashboard"
-              state={{ accessToken:presidentCode }}
+              state={{
+                accessToken:
+                  sessionStorage.getItem("presidentCode") || presidentCode,
+              }}
               className="block text-center w-full md:py-2 py-1.5 rounded-lg bg-primary hover:bg-primary-light transition dark:text-white"
             >
               Admin Panel
@@ -274,11 +268,13 @@ const SignIn = () => {
           <button
             onClick={() => {
               signOutUser();
+              setUser(null);
               setIsLoggedIn(false);
               setUserLoginOpen(false);
               setIsAdmin(false);
-              sessionStorage.setItem("firebase-admin-email", null);
-              sessionStorage.setItem("admin-login-data", null);
+              sessionStorage.removeItem("firebase-admin-email");
+              sessionStorage.removeItem("admin-login-data");
+              sessionStorage.removeItem("presidentCode");
             }}
             className="w-full md:py-2 py-1.5 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition dark:text-white cursor-pointer"
           >
