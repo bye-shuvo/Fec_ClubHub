@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const Overview = ({ data }) => {
   const [club, setClub] = useState(null);
   const [events, setEvents] = useState(null);
-  const clubId = 11;
+  const clubId = data?.club_id;
   useEffect(() => {
     try {
       if (!sessionStorage.getItem(`president-club-${clubId}-details`)) {
