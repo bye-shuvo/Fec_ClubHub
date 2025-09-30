@@ -39,7 +39,6 @@ const SignIn = () => {
       "firebase-admin-email"
     );
     if (user?.email === authenticatedUserEmail && user?.role === "admin") {
-      sessionStorage.setItem("presidentCode" , presidentCode);
       setIsAdmin(true);
     }
   }, []);
@@ -62,8 +61,9 @@ const SignIn = () => {
         throw new Error("Verification failed");
       }
       const [data] = await response.json();
-      sessionStorage.setItem("admin-login-data", JSON.stringify(data));
       if (data) {
+        sessionStorage.setItem("admin-login-data", JSON.stringify(data));
+        localStorage.setItem("presidentCode" , presidentCode);
         await signInWithGoogle();
         if (
           data?.role === "admin" &&
@@ -258,7 +258,8 @@ const SignIn = () => {
               to="/admin/dashboard"
               state={{
                 accessToken:
-                  sessionStorage.getItem("presidentCode") || presidentCode,
+                  localStorage.getItem("presidentCode") || presidentCode,
+                presidentData : JSON.parse(sessionStorage.getItem("admin-login-data"))
               }}
               className="block text-center w-full md:py-2 py-1.5 rounded-lg bg-primary hover:bg-primary-light transition dark:text-white"
             >
@@ -274,7 +275,7 @@ const SignIn = () => {
               setIsAdmin(false);
               sessionStorage.removeItem("firebase-admin-email");
               sessionStorage.removeItem("admin-login-data");
-              sessionStorage.removeItem("presidentCode");
+              localStorage.removeItem("presidentCode");
             }}
             className="w-full md:py-2 py-1.5 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition dark:text-white cursor-pointer"
           >

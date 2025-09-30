@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Club from "../components/club/Club.jsx";
 import Home from "../components/Home.jsx";
-import AdminDashboard from "../components/AdminDashboard.jsx";
+import AdminDashboard from "../components/adminDashboard/AdminDashboard.jsx";
 
 const router = createBrowserRouter([
   {
