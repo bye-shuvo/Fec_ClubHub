@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 const Overview = ({ data }) => {
   const [club, setClub] = useState(null);
   const [events, setEvents] = useState(null);
+  const [count , setCount] = useState(null);
   const clubId = data?.club_id;
   useEffect(() => {
     try {
@@ -56,6 +57,34 @@ const Overview = ({ data }) => {
     }
   }, []);
 
+  useEffect(() => {
+    try {
+      if (!sessionStorage.getItem(`president-club-${clubId}-events-count`)) {
+        (async () => {
+          const response = await fetch(
+            `${
+              import.meta.env.VITE_BACKEND_SERVER_URL
+            }/v1/clubs/events/count?clubId=${clubId}`
+          );
+          const count = await response.json();
+          setCount({ total_events: count[0]?.total_events });
+          sessionStorage.setItem(
+            `president-club-${clubId}-events-count`,
+            JSON.stringify(count)
+          );
+        })();
+      } else {
+        setCount({
+          total_events: JSON.parse(
+            sessionStorage.getItem(`president-club-${clubId}-events-count`)
+          )[0]?.total_events,
+        });
+      }
+    } catch (e) {
+      console.error(e.message + " From Overview.jsx");
+    }
+  }, []);
+
   return (
     <div className="custom-scrollbar p-6 md:p-8 mx-auto space-y-8 max-h-screen overflow-y-scroll">
       {/* Header */}
@@ -103,7 +132,7 @@ const Overview = ({ data }) => {
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
             Events Hosted
           </h4>
-          <p className="text-3xl font-bold text-primary mt-2">15</p>
+          <p className="text-3xl font-bold text-primary mt-2">{count && count?.total_events && count.total_events}</p>
         </div>
         <div className="bg-white dark:bg-charcoal-card p-6 text-center shadow-md rounded-xl">
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
@@ -133,14 +162,14 @@ const Overview = ({ data }) => {
               >
                 <p
                   className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold ${
-                          event.category === "Sports"
-                            ? "bg-blue-100 text-blue-800"
-                            : event.category === "Competition"
-                            ? "bg-green-100 text-green-800"
-                            : event.category === "Innovation"
-                            ? "bg-purple-100 text-purple-800"
-                            : "bg-orange-100 text-orange-800"
-                        } shadow-lg`}
+                    event.category === "Sports"
+                      ? "bg-blue-100 text-blue-800"
+                      : event.category === "Competition"
+                      ? "bg-green-100 text-green-800"
+                      : event.category === "Innovation"
+                      ? "bg-purple-100 text-purple-800"
+                      : "bg-orange-100 text-orange-800"
+                  } shadow-lg`}
                 >
                   {event.category}
                 </p>
