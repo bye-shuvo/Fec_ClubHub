@@ -35,8 +35,8 @@ const Navbar = ({ getCategoryColors }) => {
   return (
     <>
       <nav className="flex items-center justify-between flex-shrink-0 sticky top-0 left-0 z-40 px-4 py-3 w-full h-[4rem] bg-white/60 dark:bg-gray-900/70 backdrop-blur-xl border-b-2 border-gray-200 dark:border-gray-700 shadow-sm">
-        <h1 className="text-nowrap font-header font-extrabold md:text-[2.5rem] text-[1.7rem] text-center text-primary dark:text-white hover:text-primary-dark dark:hover:text-primary transition-colors duration-200 ease-in-out mr-4">
-          FEC ClubHub
+        <h1 className="text-nowrap font-title font-semibold md:text-[2.2rem] text-[1.7rem] text-center text-primary dark:text-white hover:text-primary-dark dark:hover:text-primary transition-colors duration-200 ease-in-out mr-4">
+          FEC CLUBHUB
         </h1>
         <div className="flex md:gap-4 gap-2 items-center">
           

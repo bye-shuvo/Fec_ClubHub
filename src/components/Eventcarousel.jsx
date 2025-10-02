@@ -166,7 +166,7 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
                             >
                               {club.category}
                             </span>
-                            <h2 className="xl:text-7xl lg:text-5xl text-3xl font-bold text-text dark:text-white md:mb-6 mb-3 leading-tight animate-slide-in-left">
+                            <h2 className="line-clamp-3 xl:text-7xl lg:text-5xl text-3xl font-bold text-text dark:text-white md:mb-6 mb-3 leading-tight animate-slide-in-left">
                               {event.title}
                             </h2>
                             <h3 className="text-md md:text-2xl font-bold text-text dark:text-white mb-3 md:mb-6 leading-tight animate-slide-in-left">
@@ -175,7 +175,7 @@ const Eventcarousel = ({ clubs, getCategoryColors }) => {
                               </p>{" "}
                               {club.name}
                             </h3>
-                            <p className="text-sm md:text-lg text-text-secondary/80 dark:text-text-secondary-dark animate-slide-in-left-delay xl:leading-loose">
+                            <p className="line-clamp-4 text-sm md:text-lg text-text-secondary/80 dark:text-text-secondary-dark animate-slide-in-left-delay xl:leading-loose">
                               {event.description}
                             </p>
                           </div>

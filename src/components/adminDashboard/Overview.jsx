@@ -69,7 +69,6 @@ const Overview = ({ data }) => {
             }/v1/clubs/events/count?clubId=${clubId}&status=Ended`
           );
           const count = await response.json();
-          console.log({total_ended_events: count[0]?.total_events });
           setCount((prev) => {return {...prev , total_ended_events: count[0]?.total_events }});
           sessionStorage.setItem(
             `president-club-${clubId}-ended-events-count`,
@@ -104,7 +103,6 @@ const Overview = ({ data }) => {
             }/v1/clubs/events/count?clubId=${clubId}&status=Upcoming`
           );
           const count = await response.json();
-          console.log({total_upcoming_events: count[0]?.total_events });
           setCount((prev) => {return {...prev , total_upcoming_events: count[0]?.total_events }});
           sessionStorage.setItem(
             `president-club-${clubId}-upcoming-events-count`,
@@ -127,80 +125,80 @@ const Overview = ({ data }) => {
   }, [clubId]);
 
   return (
-    <div className="custom-scrollbar p-6 md:p-8 mx-auto space-y-8 max-h-screen overflow-y-scroll">
+    <div className="custom-scrollbar p-2 md:p-8 mx-auto space-y-2 md:space-y-8 max-h-screen overflow-y-scroll">
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-3xl font-bold text-charcoal dark:text-white">
+        <h2 className="text-xl text-nowrap md:text-3xl font-bold text-charcoal dark:text-white">
           Club Overview
         </h2>
-        <button className="cursor-pointer bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition">
-          Edit Club Details
+        <button className="cursor-pointer bg-primary text-white text-sm md:text-lg px-2 md:px-4 py-2 rounded-lg hover:bg-primary-dark transition">
+          Edit Club
         </button>
       </div>
 
       {/* Club Info Card */}
-      <div className="bg-white dark:bg-charcoal-card shadow-lg rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-center">
+      <div className="bg-white dark:bg-charcoal-card shadow-lg rounded-2xl p-4 md:p-6 flex flex-col md:flex-row gap-2 md:gap-6 items-center">
         {/* Logo */}
         <img
           src={club?.logo}
           alt={club?.shortName}
-          className="w-28 h-28 rounded-full object-cover shadow-md"
+          className="w-14 h-14 md:w-28 md:h-28 rounded-full object-cover shadow-md"
         />
 
         {/* Info */}
         <div className="flex-wrap">
-          <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">
-            {club?.name} <p className="inline">({club?.shortName})</p>
+          <h3 className="md:text-2xl text-lg font-bold text-gray-800 dark:text-white mb-2">
+            {club?.name} ({club?.shortName})
           </h3>
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
             <span className="font-semibold">Category:</span> {club?.category}
           </p>
-          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+          <p className="text-sm text-gray-700 dark:text-gray-300 md:leading-relaxed">
             {club?.description}
           </p>
         </div>
       </div>
 
       {/* Stats Section */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-charcoal-card p-6 text-center shadow-md rounded-xl">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6">
+        <div className="bg-white dark:bg-charcoal-card p-2 md:p-6 text-center shadow-md rounded-xl">
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
             Total Members
           </h4>
-          <p className="text-3xl font-bold text-primary mt-2">120</p>
+          <p className="text-xl md:text-3xl font-bold text-primary mt-2">120</p>
         </div>
-        <div className="bg-white dark:bg-charcoal-card p-6 text-center shadow-md rounded-xl">
+        <div className="bg-white dark:bg-charcoal-card p-2 md:p-6 text-center shadow-md rounded-xl">
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
             Events Hosted
           </h4>
-          <p className="text-3xl font-bold text-primary mt-2">
+          <p className="text-xl md:text-3xl font-bold text-primary mt-2">
             {count && count?.total_ended_events && count.total_ended_events}
           </p>
         </div>
-        <div className="bg-white dark:bg-charcoal-card p-6 text-center shadow-md rounded-xl">
+        <div className="bg-white dark:bg-charcoal-card p-2 md:p-6 text-center shadow-md rounded-xl">
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
             Upcoming Events
           </h4>
-          <p className="text-3xl font-bold text-primary mt-2">
+          <p className="text-xl md:text-3xl font-bold text-primary mt-2">
             {count &&
               count?.total_upcoming_events &&
               count.total_upcoming_events}
           </p>
         </div>
-        <div className="bg-white dark:bg-charcoal-card p-6 text-center shadow-md rounded-xl">
+        <div className="bg-white dark:bg-charcoal-card p-2 md:p-6 text-center shadow-md rounded-xl">
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
             Followers
           </h4>
-          <p className="text-3xl font-bold text-primary mt-2">500+</p>
+          <p className="text-xl md:text-3xl font-bold text-primary mt-2">500+</p>
         </div>
       </div>
 
       {/* Recent Events */}
       <div>
-        <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
+        <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2 md:mb-4">
           Recent Events
         </h3>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
           {events && events.length > 0 ? (
             events.map((event) => (
               <div
@@ -208,7 +206,7 @@ const Overview = ({ data }) => {
                 className="relative bg-white dark:bg-charcoal-card shadow-md rounded-xl overflow-hidden"
               >
                 <p
-                  className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-semibold ${
+                  className={`absolute top-3 right-3 px-2 md:px-3 py-1 rounded-full text-xs font-semibold ${
                     event.category === "Sports"
                       ? "bg-blue-100 text-blue-800"
                       : event.category === "Competition"
@@ -225,7 +223,7 @@ const Overview = ({ data }) => {
                   alt="Event Banner"
                   className="w-full h-40 object-cover"
                 />
-                <div className="p-4">
+                <div className="p-2 md:p-4">
                   <h4 className="text-lg font-semibold text-gray-800 dark:text-white">
                     {event.title}
                   </h4>
@@ -239,7 +237,7 @@ const Overview = ({ data }) => {
               </div>
             ))
           ) : (
-            <div className="text-text-secondary dark:text-text-secondary-dark text-2xl text-center font-bold">
+            <div className="text-text-secondary dark:text-text-secondary-dark text-lg md:text-2xl text-center font-bold">
               No Event To Show Yet
             </div>
           )}
@@ -248,10 +246,10 @@ const Overview = ({ data }) => {
 
       {/* Social Links */}
       <div>
-        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2 md:mb-4">
           Connect With Us
         </h3>
-        <div className="flex flex-wrap gap-4">
+        <div className="flex flex-wrap gap-4 text-sm">
           <a
             href="#"
             className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition"

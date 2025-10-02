@@ -91,7 +91,7 @@ const SignIn = () => {
         onClick={() => {
           setUserLoginOpen(!userLoginOpen);
         }}
-        className="h-10 w-10 cursor-pointer p-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700"
+        className="h-9 w-9 md:h-10 md:w-10 cursor-pointer p-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-700"
         aria-label="Open login"
       >
         {!user ? (
@@ -128,7 +128,7 @@ const SignIn = () => {
             </button>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-4">
             <button
               onClick={() => {
                 setUserLoginTab("user");
@@ -230,7 +230,7 @@ const SignIn = () => {
 
       {/* loggedIn user details Section*/}
       {user && userLoginOpen && isLoggedIn && (
-        <div className="custom-scrollbar min-w-sm md:max-w-[27%] md:max-h-[70vh] max-h-[80vh] overflow-y-scroll shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5">
+        <div className="w-full md:w-[27%] shadow-2xl bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card absolute top-[4rem] md:right-2 right-0 z-50 p-4 rounded-b-lg space-y-5">
           <div className="flex items-center flex-col gap-2">
             <button
               onClick={() => setUserLoginOpen(false)}

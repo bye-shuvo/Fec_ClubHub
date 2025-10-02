@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import Overview from "./Overview.jsx"
+import Overview from "./Overview.jsx";
 
 const AdminDashboard = () => {
   const [sidebarTab, setSidebarTab] = useState("overview");
@@ -31,12 +31,12 @@ const AdminDashboard = () => {
 
   return (
     <>
-    <div className="flex justify-between font-all w-screen min-h-[100vh] dark:bg-charcoal bg-background -z-30 dark:text-white">
-      <Sidebar sidebarTab={sidebarTab} setSidebarTab={setSidebarTab} />
-      {
-        (sidebarTab === "overview") && <Overview data = {state.presidentData} />
-      }
-    </div>
+      <div className="flex justify-between font-all w-screen min-h-[100vh] dark:bg-charcoal bg-background -z-30 dark:text-white overflow-x-hidden">
+        <Sidebar sidebarTab={sidebarTab} setSidebarTab={setSidebarTab} />
+        {sidebarTab === "overview" && (
+          <Overview data={state.presidentData} />
+        )}
+      </div>
     </>
   );
 };

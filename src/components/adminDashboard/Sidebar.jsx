@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import ThemeToggler from "../ThemeToggler";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Sidebar = ({ sidebarTab, setSidebarTab }) => {
   const [isShrink, setIsShrink] = useState(false);
@@ -42,17 +42,32 @@ const Sidebar = ({ sidebarTab, setSidebarTab }) => {
     },
   ];
 
+  useEffect(()=>{
+    const shrinkOnResize = () => {
+      if(window.innerWidth <= 1260){
+       setIsShrink(true);
+      }
+      else{
+        setIsShrink(false);
+      }
+    }
+    shrinkOnResize();
+    window.addEventListener("resize" , shrinkOnResize)
+
+    return () => {window.removeEventListener("resize" , shrinkOnResize)};
+  },[]);
+
   return (
     <div
-      className={`${isShrink ? 'w-[6%]' : 'min-w-[18%]'} relative h-screen p-3 bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card dark:text-white transition-all duration-300 ease-in-out`}
+      className={`${isShrink ? 'w-fit md:w-[6%]' : 'min-w-full md:min-w-[18%]'} relative h-screen p-3 bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card dark:text-white transition-all duration-300 ease-in-out`}
     >
-      <h2 className="mb-2 font-header text-2xl font-bold flex justify-between items-center">
+      <h2 className="mb-2 font-title text-2xl flex justify-between items-center">
         {!isShrink && "FEC CLUBHUB"}
         <svg
           onClick={() => {
             setIsShrink(!isShrink);
           }}
-          className="h-10 w-10 cursor-pointer"
+          className={`${isShrink ? "rotate-180" : "rotate-0"} h-10 w-10 cursor-pointer transition-all ease-in-out duration-300`}
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 640 640"
         >
@@ -100,7 +115,7 @@ const Sidebar = ({ sidebarTab, setSidebarTab }) => {
           to={"/"}
         >
           <svg
-            className={`${isShrink ? 'h-8 w-8' : 'h-9 w-9'}`}
+            className={`${isShrink ? 'h-7 w-7 md:h-8 md:w-8' : 'h-7 w-7 md:h-9 md:w-9'}`}
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 640 640"
           >
