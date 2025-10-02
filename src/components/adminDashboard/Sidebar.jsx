@@ -12,7 +12,7 @@ const Sidebar = ({ sidebarTab, setSidebarTab }) => {
     },
     {
       title: "Manage Club Details",
-      tab: "club-details",
+      tab: "details",
       icon: "🏫",
     },
     {
@@ -21,7 +21,7 @@ const Sidebar = ({ sidebarTab, setSidebarTab }) => {
       icon: "📅",
     },
     {
-      title: "Members / Committee",
+      title: "Committee & Members",
       tab: "members",
       icon: "👥",
     },
@@ -87,7 +87,7 @@ const Sidebar = ({ sidebarTab, setSidebarTab }) => {
               }}
               className={`${
                 field.tab === sidebarTab
-                  ? `bg-charcoal/10 dark:bg-background-secondary/5 ${isShrink ? 'w-[125%]' : 'w-[105%]'}  rounded-l-xl rounded-r-none`
+                  ? `bg-charcoal/10 dark:bg-background-secondary/5 ${isShrink ? 'w-[120%]' : 'w-[105%]'}  rounded-l-xl rounded-r-none`
                   : "rounded-sm"
               } p-2 mb-1 text-sm md:text-[1rem] text-nowrap hover:bg-charcoal/10 dark:hover:bg-background-secondary/5 cursor-pointer overflow-hidden transition-all duration-200 ease-in-out hover:shadow-sm`}
             >

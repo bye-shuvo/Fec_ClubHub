@@ -125,13 +125,13 @@ const Overview = ({ data }) => {
   }, [clubId]);
 
   return (
-    <div className="custom-scrollbar p-2 md:p-8 mx-auto space-y-2 md:space-y-8 max-h-screen overflow-y-scroll">
+    <div className="custom-scrollbar p-2 md:p-8 md:max-w-[75%] mx-auto space-y-2 md:space-y-8 max-h-screen overflow-y-scroll">
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl text-nowrap md:text-3xl font-bold text-charcoal dark:text-white">
           Club Overview
         </h2>
-        <button className="cursor-pointer bg-primary text-white text-sm md:text-lg px-2 md:px-4 py-2 rounded-lg hover:bg-primary-dark transition">
+        <button className="cursor-pointer bg-primary text-white text-sm md:text-md px-2 md:px-4 py-2 rounded-lg hover:bg-primary-dark transition">
           Edit Club
         </button>
       </div>
@@ -187,9 +187,9 @@ const Overview = ({ data }) => {
         </div>
         <div className="bg-white dark:bg-charcoal-card p-2 md:p-6 text-center shadow-md rounded-xl">
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-            Followers
+            Committee Members
           </h4>
-          <p className="text-xl md:text-3xl font-bold text-primary mt-2">500+</p>
+          <p className="text-xl md:text-3xl font-bold text-primary mt-2">15</p>
         </div>
       </div>
 
