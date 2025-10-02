@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const Overview = ({ data }) => {
   const [club, setClub] = useState(null);
   const [events, setEvents] = useState(null);
-  const [count , setCount] = useState(null);
+  const [count, setCount] = useState({});
   const clubId = data?.club_id;
   useEffect(() => {
     try {
@@ -59,31 +59,72 @@ const Overview = ({ data }) => {
 
   useEffect(() => {
     try {
-      if (!sessionStorage.getItem(`president-club-${clubId}-events-count`)) {
+      if (
+        !sessionStorage.getItem(`president-club-${clubId}-ended-events-count`)
+      ) {
         (async () => {
           const response = await fetch(
             `${
               import.meta.env.VITE_BACKEND_SERVER_URL
-            }/v1/clubs/events/count?clubId=${clubId}`
+            }/v1/clubs/events/count?clubId=${clubId}&status=Ended`
           );
           const count = await response.json();
-          setCount({ total_events: count[0]?.total_events });
+          console.log({total_ended_events: count[0]?.total_events });
+          setCount((prev) => {return {...prev , total_ended_events: count[0]?.total_events }});
           sessionStorage.setItem(
-            `president-club-${clubId}-events-count`,
+            `president-club-${clubId}-ended-events-count`,
             JSON.stringify(count)
           );
         })();
       } else {
-        setCount({
-          total_events: JSON.parse(
-            sessionStorage.getItem(`president-club-${clubId}-events-count`)
+        setCount((prev) => {return {
+          ...prev ,
+          total_ended_events: JSON.parse(
+            sessionStorage.getItem(
+              `president-club-${clubId}-ended-events-count`
+            )
           )[0]?.total_events,
-        });
+        }});
       }
     } catch (e) {
       console.error(e.message + " From Overview.jsx");
     }
-  }, []);
+  }, [clubId]);
+  useEffect(() => {
+    try {
+      if (
+        !sessionStorage.getItem(
+          `president-club-${clubId}-upcoming-events-count`
+        )
+      ) {
+        (async () => {
+          const response = await fetch(
+            `${
+              import.meta.env.VITE_BACKEND_SERVER_URL
+            }/v1/clubs/events/count?clubId=${clubId}&status=Upcoming`
+          );
+          const count = await response.json();
+          console.log({total_upcoming_events: count[0]?.total_events });
+          setCount((prev) => {return {...prev , total_upcoming_events: count[0]?.total_events }});
+          sessionStorage.setItem(
+            `president-club-${clubId}-upcoming-events-count`,
+            JSON.stringify(count)
+          );
+        })();
+      } else {
+        setCount((prev) => {return {
+          ...prev ,
+          total_upcoming_events: JSON.parse(
+            sessionStorage.getItem(
+              `president-club-${clubId}-upcoming-events-count`
+            )
+          )[0]?.total_events,
+        }});
+      }
+    } catch (e) {
+      console.error(e.message + " From Overview.jsx");
+    }
+  }, [clubId]);
 
   return (
     <div className="custom-scrollbar p-6 md:p-8 mx-auto space-y-8 max-h-screen overflow-y-scroll">
@@ -132,13 +173,19 @@ const Overview = ({ data }) => {
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
             Events Hosted
           </h4>
-          <p className="text-3xl font-bold text-primary mt-2">{count && count?.total_events && count.total_events}</p>
+          <p className="text-3xl font-bold text-primary mt-2">
+            {count && count?.total_ended_events && count.total_ended_events}
+          </p>
         </div>
         <div className="bg-white dark:bg-charcoal-card p-6 text-center shadow-md rounded-xl">
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
             Upcoming Events
           </h4>
-          <p className="text-3xl font-bold text-primary mt-2">3</p>
+          <p className="text-3xl font-bold text-primary mt-2">
+            {count &&
+              count?.total_upcoming_events &&
+              count.total_upcoming_events}
+          </p>
         </div>
         <div className="bg-white dark:bg-charcoal-card p-6 text-center shadow-md rounded-xl">
           <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
