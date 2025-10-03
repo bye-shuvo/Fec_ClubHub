@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Details = ({ data }) => {
   const [club, setClub] = useState(null);
   const [contacts, setContacts] = useState(null);
+  const [isChanged, setIsChanged] = useState(false);
   const clubId = data?.club_id;
+  const initialClubValue = useRef(null);
+  const initialContactValue = useRef(null);
 
   useEffect(() => {
     try {
@@ -16,6 +19,7 @@ const Details = ({ data }) => {
           );
           const contacts = await response.json();
           setContacts(contacts);
+          initialContactValue.current = contacts;
           sessionStorage.setItem(
             `president-club-${clubId}-contacts`,
             JSON.stringify(contacts)
@@ -26,6 +30,9 @@ const Details = ({ data }) => {
           JSON.parse(
             sessionStorage.getItem(`president-club-${clubId}-contacts`)
           )
+        );
+        initialContactValue.current = JSON.parse(
+          sessionStorage.getItem(`president-club-${clubId}-contacts`)
         );
       }
     } catch (e) {
@@ -44,6 +51,7 @@ const Details = ({ data }) => {
           );
           const clubData = await response.json();
           setClub(clubData[0]);
+          initialClubValue.current = clubData;
           sessionStorage.setItem(
             `president-club-${clubId}-details`,
             JSON.stringify(clubData[0])
@@ -53,6 +61,9 @@ const Details = ({ data }) => {
         setClub(
           JSON.parse(sessionStorage.getItem(`president-club-${clubId}-details`))
         );
+        initialClubValue.current = JSON.parse(
+          sessionStorage.getItem(`president-club-${clubId}-details`)
+        );
       }
     } catch (e) {
       console.error(e.message + " From ClubDetails.jsx");
@@ -60,17 +71,30 @@ const Details = ({ data }) => {
   }, [clubId]);
 
   const handleChange = (e) => {
+    if (Object.values(initialClubValue.current).includes(e.target.value)) {
+      setIsChanged(false);
+    } else {
+      setIsChanged(true);
+    }
     setClub((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleContactChange = (e) => {
-    if(e.target.name === "Facebook") setFbLink(e.target.value);
-    else if(e.target.name === "Email") setEmailLink(e.target.value);
-    else setFormLink(e.target.value) ;
     setContacts((prev) =>
       prev.map((contact) => {
-        if (contact.method === e.target.method) {
-          return { [e.target.name]: e.target.value };
+        if (contact.method === e.target.name) {
+          if (
+            Object.values(
+              initialContactValue.current.find(
+                (contact) => contact.method === e.target.name
+              )
+            ).includes(e.target.value)
+          ) {
+            setIsChanged(false);
+          } else {
+            setIsChanged(true);
+          }
+          return { ...contact, link: e.target.value };
         } else {
           return contact;
         }
@@ -95,6 +119,21 @@ const Details = ({ data }) => {
         const message = await response.json();
         console.log(message);
       })();
+
+      (async () => {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/contacts/update`,
+          {
+            method: "PUT",
+            body: JSON.stringify({ contacts: contacts }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const message = await response.json();
+        console.log(message);
+      })();
     } catch (e) {
       console.error(e.message + " From ClubDetails.jsx");
     }
@@ -110,7 +149,12 @@ const Details = ({ data }) => {
         <button
           type="submit"
           form="club-form"
-          className="cursor-pointer bg-primary text-white text-sm md:text-md px-2 md:px-4 py-2 rounded-lg hover:bg-primary-dark transition"
+          disabled={!isChanged}
+          className={`${
+            !isChanged
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-primary hover:bg-primary-dark cursor-pointer"
+          } text-white text-sm md:text-md px-2 md:px-4 py-2 rounded-lg transition`}
         >
           Save Changes
         </button>
