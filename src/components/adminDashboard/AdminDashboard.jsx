@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Overview from "./Overview.jsx";
 import Details from "./Details.jsx";
+import ManageEvents from "./ManageEvents.jsx";
 
 const AdminDashboard = () => {
   const [sidebarTab, setSidebarTab] = useState("overview");
@@ -37,7 +38,8 @@ const AdminDashboard = () => {
         {(sidebarTab === "overview" && (
           <Overview data={state.presidentData} />
         )) ||
-          (sidebarTab === "details" && <Details data={state.presidentData} />)}
+          (sidebarTab === "details" && <Details data={state.presidentData} />) || 
+          (sidebarTab === "events" && <ManageEvents data={state.presidentData} />)}
       </div>
     </>
   );

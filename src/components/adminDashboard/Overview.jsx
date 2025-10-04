@@ -89,6 +89,7 @@ const Overview = ({ data }) => {
       console.error(e.message + " From Overview.jsx");
     }
   }, [clubId]);
+
   useEffect(() => {
     try {
       if (
@@ -193,10 +194,10 @@ const Overview = ({ data }) => {
         </div>
       </div>
 
-      {/* Recent Events */}
+      {/* Events */}
       <div>
         <h3 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-2 md:mb-4">
-          Recent Events
+          Club Events
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
           {events && events.length > 0 ? (

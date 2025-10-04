@@ -59,7 +59,7 @@ const Sidebar = ({ sidebarTab, setSidebarTab }) => {
 
   return (
     <div
-      className={`${isShrink ? 'w-fit md:w-[6%]' : 'min-w-full md:min-w-[18%]'} relative h-screen p-3 bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card dark:text-white transition-all duration-300 ease-in-out`}
+      className={`${isShrink ? 'w-fit md:w-[6%]' : 'min-w-full md:min-w-[18%]'} relative h-dvh p-3 bg-white border border-border dark:border-charcoal-card/90 dark:bg-charcoal-card dark:text-white transition-all duration-300 ease-in-out`}
     >
       <h2 className="mb-2 font-title text-2xl flex justify-between items-center">
         {!isShrink && "FEC CLUBHUB"}
