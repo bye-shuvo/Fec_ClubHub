@@ -2,9 +2,14 @@ import { useEffect, useRef, useState } from "react";
 
 const Manageevent = ({ data }) => {
   const [event, setEvent] = useState(null);
-  const [initialevent , setInitialevent] = useState(null);
+  const [initialevents, setinitialevents] = useState(null);
   const [isChanged, setIsChanged] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddBtnClicked, setIsAddBtnClicked] = useState(false);
+  const [isUpdateBtnClicked, setIsUpdateBtnClicked] = useState(false);
+  const [isDeletable, setIsDeletable] = useState(false);
+  const [isDltModalOpen, setIsDltModalOpen] = useState(false);
+  const [eventId , setEventId] = useState(null);
   const clubId = data?.club_id;
 
   // Fetch event
@@ -18,16 +23,16 @@ const Manageevent = ({ data }) => {
             }/v1/clubs/event/search?clubId=${clubId}`
           );
           const events = await response.json();
-          setInitialevent(events);
+          setinitialevents(events);
           sessionStorage.setItem(
             `president-club-${clubId}-events`,
             JSON.stringify(events)
           );
         })();
       } else {
-        setInitialevent(JSON.parse(
-          sessionStorage.getItem(`president-club-${clubId}-events`)
-        ))
+        setinitialevents(
+          JSON.parse(sessionStorage.getItem(`president-club-${clubId}-events`))
+        );
       }
     } catch (e) {
       console.error(e.message + " From Overview.jsx");
@@ -35,13 +40,15 @@ const Manageevent = ({ data }) => {
   }, []);
 
   // Handle field update
-  const handleChange = (e, id) => {
+  const handleChange = (e) => {
     setEvent((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     setIsChanged(true);
   };
 
   // Create new event
   const handleAddEvent = () => {
+    setIsAddBtnClicked(true);
+    setIsUpdateBtnClicked(false);
     const newEvent = {
       clubId,
       title: "",
@@ -55,24 +62,63 @@ const Manageevent = ({ data }) => {
     setIsModalOpen(true);
   };
 
+  //Update event
+  const handleEditEvent = (id) => {
+    setIsAddBtnClicked(false);
+    setIsUpdateBtnClicked(true);
+    const clickedEvent = initialevents.find((event) => event.id === id);
+    setEvent(clickedEvent);
+    setIsModalOpen(true);
+  };
+
   // Delete event
   const handleDeleteEvent = (id) => {
-    setEvent((prev) => prev.filter((event) => event.id !== id));
-    setIsChanged(true);
+    setIsDltModalOpen(false);
+    (async () => {
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_BACKEND_SERVER_URL
+        }/v1/clubs/events/delete?id=${id}`
+      );
+      const message = await response.json();
+      console.log(message);
+    })();
   };
+
+  useEffect(() => {
+    if (isDeletable) {
+      handleDeleteEvent();
+    }
+    return () => setIsDeletable(false);
+  }, [setIsDeletable]);
 
   // Submit changes
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(Object.keys(event))
-    console.log(Object.values(event));
     try {
-       (async () => {
+      isAddBtnClicked &&
+        (async () => {
           const response = await fetch(
             `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/create`,
             {
               method: "POST",
-              body: JSON.stringify({ event : event }),
+              body: JSON.stringify({ event: event }),
+              headers: { "Content-Type": "application/json" },
+            }
+          );
+          const message = await response.json();
+          console.log(message);
+          setIsChanged(false);
+          setIsModalOpen(false);
+        })();
+
+      isUpdateBtnClicked &&
+        (async () => {
+          const response = await fetch(
+            `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/update`,
+            {
+              method: "PUT",
+              body: JSON.stringify({ event: event }),
               headers: { "Content-Type": "application/json" },
             }
           );
@@ -101,7 +147,7 @@ const Manageevent = ({ data }) => {
         <button
           type="button"
           onClick={handleAddEvent}
-          className="mx-auto w-[50%] px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold transition"
+          className="cursor-pointer mx-auto w-[50%] px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold transition"
         >
           + Add New Event
         </button>
@@ -113,8 +159,8 @@ const Manageevent = ({ data }) => {
           Club events
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-6">
-          {initialevent && initialevent?.length > 0 ? (
-            initialevent?.map((event) => (
+          {initialevents && initialevents?.length > 0 ? (
+            initialevents?.map((event) => (
               <div
                 key={event.id}
                 className="relative bg-white dark:bg-charcoal-card shadow-md rounded-xl overflow-hidden"
@@ -147,6 +193,29 @@ const Manageevent = ({ data }) => {
                   <p className="text-gray-700 dark:text-gray-300 text-sm line-clamp-2">
                     {event.description}
                   </p>
+                  <div className="buttons mt-6 flex justify-between">
+                    <button
+                      type="button"
+                      name="edit"
+                      onClick={() => {
+                        handleEditEvent(event.id);
+                      }}
+                      className="w-[45%] bg-primary hover:bg-primary-dark cursor-pointer text-white text-sm px-1 md:px-2 py-2 rounded-lg transition"
+                    >
+                      Edit Event
+                    </button>
+                    <button
+                      type="button"
+                      name="delete"
+                      onClick={() => {
+                        setIsDltModalOpen(true);
+                        setEventId(event.id);
+                      }}
+                      className="w-[45%] bg-error hover:bg-error-secondary cursor-pointer text-white text-sm px-1 md:px-2 py-2 rounded-lg transition"
+                    >
+                      Delete Event
+                    </button>
+                  </div>
                 </div>
               </div>
             ))
@@ -340,28 +409,89 @@ const Manageevent = ({ data }) => {
           </form>
 
           {/* Create Button */}
-          <button
-            type="submit"
-            form="event-form"
-            name="create"
-            disabled={!isChanged}
-            className={`${
-              !isChanged
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-primary hover:bg-primary-dark cursor-pointer"
-            } text-white text-sm md:text-md w-full px-4 py-2 rounded-lg transition`}
-          >
-            Create
-          </button>
-
+          {isAddBtnClicked && (
+            <button
+              type="submit"
+              form="event-form"
+              name="create"
+              disabled={!isChanged}
+              className={`${
+                !isChanged
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-primary hover:bg-primary-dark cursor-pointer"
+              } text-white text-sm md:text-md w-full px-4 py-2 rounded-lg transition`}
+            >
+              Create
+            </button>
+          )}
+          {/* Update Button */}
+          {isUpdateBtnClicked && (
+            <button
+              type="submit"
+              form="event-form"
+              name="update"
+              disabled={!isChanged}
+              className={`${
+                !isChanged
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-primary hover:bg-primary-dark cursor-pointer"
+              } text-white text-sm md:text-md w-full px-4 py-2 rounded-lg transition`}
+            >
+              Update
+            </button>
+          )}
           {/* Delete Button */}
+          {isUpdateBtnClicked && (
+            <button
+              type="button"
+              onClick={() => {
+                setIsDltModalOpen(true);
+              }}
+              className="bg-error hover:bg-error-secondary w-full cursor-pointer text-white text-sm md:text-md px-4 py-2 rounded-lg transition"
+            >
+              Delete Event
+            </button>
+          )}
+        </div>
+      )}
+
+      {isDltModalOpen && (
+        <div className="absolute top-1/2 left-1/2 -translate-1/2 w-[40%] h-[30%] rounded-xl p-2 md:p-6 bg-gray-50 dark:bg-charcoal-card space-y-6 shadow-2xl">
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg md:text-2xl font-bold text-charcoal dark:text-white">
+              Delete Confirmation?
+            </h2>
+            <button
+              type="button"
+              onClick={() => {
+                setIsDltModalOpen(false);
+              }}
+              className="p-2 px-4 rounded-md cursor-pointer border dark:border-gray-600 hover:bg-error-secondary"
+            >
+              ✗
+            </button>
+          </div>
+          <p>Do you really want to delete this event?</p>
+          <div className="flex items-center justify-between">
           <button
             type="button"
-            onClick={() => handleDeleteEvent(event.id)}
-            className="bg-error hover:bg-error-secondary w-full cursor-pointer text-white text-sm md:text-md px-4 py-2 rounded-lg transition"
+            name="cancel"
+            onClick={() => {
+              setIsDltModalOpen(false);
+            }}
+            className="w-[45%] bg-text-secondary-dark cursor-pointer text-white text-sm px-1 md:px-2 py-2 rounded-lg transition"
           >
-            Delete Event
+            cancel
           </button>
+          <button
+            type="button"
+            name="confirm"
+            onClick={() => {handleDeleteEvent(eventId)}}
+            className="w-[45%] bg-error hover:bg-error-secondary cursor-pointer text-white text-sm px-1 md:px-2 py-2 rounded-lg transition"
+          >
+            Confirm
+          </button>
+          </div>
         </div>
       )}
     </div>
