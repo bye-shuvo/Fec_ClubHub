@@ -8,23 +8,40 @@ const Details = ({ data }) => {
   const initialClubValue = useRef(null);
   const initialContactValue = useRef(null);
 
+  const fetchClubDetails = async () => {
+    const response = await fetch(
+      `${
+        import.meta.env.VITE_BACKEND_SERVER_URL
+      }/v1/clubs/find?clubId=${clubId}`
+    );
+    const clubData = await response.json();
+    setClub(clubData[0]);
+    initialClubValue.current = clubData;
+    sessionStorage.setItem(
+      `president-club-${clubId}-details`,
+      JSON.stringify(clubData[0])
+    );
+  };
+
+  const fetchContacts = async () => {
+    const response = await fetch(
+      `${
+        import.meta.env.VITE_BACKEND_SERVER_URL
+      }/v1/clubs/contacts/search?clubId=${clubId}`
+    );
+    const contacts = await response.json();
+    setContacts(contacts);
+    initialContactValue.current = contacts;
+    sessionStorage.setItem(
+      `president-club-${clubId}-contacts`,
+      JSON.stringify(contacts)
+    );
+  };
+
   useEffect(() => {
     try {
       if (!sessionStorage.getItem(`president-club-${clubId}-contacts`)) {
-        (async () => {
-          const response = await fetch(
-            `${
-              import.meta.env.VITE_BACKEND_SERVER_URL
-            }/v1/clubs/contacts/search?clubId=${clubId}`
-          );
-          const contacts = await response.json();
-          setContacts(contacts);
-          initialContactValue.current = contacts;
-          sessionStorage.setItem(
-            `president-club-${clubId}-contacts`,
-            JSON.stringify(contacts)
-          );
-        })();
+        fetchContacts();
       } else {
         setContacts(
           JSON.parse(
@@ -43,20 +60,7 @@ const Details = ({ data }) => {
   useEffect(() => {
     try {
       if (!sessionStorage.getItem(`president-club-${clubId}-details`)) {
-        (async () => {
-          const response = await fetch(
-            `${
-              import.meta.env.VITE_BACKEND_SERVER_URL
-            }/v1/clubs/find?clubId=${clubId}`
-          );
-          const clubData = await response.json();
-          setClub(clubData[0]);
-          initialClubValue.current = clubData;
-          sessionStorage.setItem(
-            `president-club-${clubId}-details`,
-            JSON.stringify(clubData[0])
-          );
-        })();
+        fetchClubDetails();
       } else {
         setClub(
           JSON.parse(sessionStorage.getItem(`president-club-${clubId}-details`))
@@ -105,6 +109,7 @@ const Details = ({ data }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      //Updation IIFE
       (async () => {
         const response = await fetch(
           `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/update`,
@@ -134,6 +139,9 @@ const Details = ({ data }) => {
         const message = await response.json();
         console.log(message);
       })();
+      await fetchContacts();
+      await fetchClubDetails();
+      setIsChanged(false);
     } catch (e) {
       console.error(e.message + " From ClubDetails.jsx");
     }

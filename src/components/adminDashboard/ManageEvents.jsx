@@ -9,26 +9,29 @@ const Manageevent = ({ data }) => {
   const [isUpdateBtnClicked, setIsUpdateBtnClicked] = useState(false);
   const [isDeletable, setIsDeletable] = useState(false);
   const [isDltModalOpen, setIsDltModalOpen] = useState(false);
-  const [eventId , setEventId] = useState(null);
+  const [eventId, setEventId] = useState(null);
   const clubId = data?.club_id;
 
   // Fetch event
+
+  const fetchEvents = async () => {
+    const response = await fetch(
+      `${
+        import.meta.env.VITE_BACKEND_SERVER_URL
+      }/v1/clubs/events/search?clubId=${clubId}`
+    );
+    const events = await response.json();
+    setinitialevents(events);
+    sessionStorage.setItem(
+      `president-club-${clubId}-events`,
+      JSON.stringify(events)
+    );
+  };
+
   useEffect(() => {
     try {
       if (!sessionStorage.getItem(`president-club-${clubId}-events`)) {
-        (async () => {
-          const response = await fetch(
-            `${
-              import.meta.env.VITE_BACKEND_SERVER_URL
-            }/v1/clubs/event/search?clubId=${clubId}`
-          );
-          const events = await response.json();
-          setinitialevents(events);
-          sessionStorage.setItem(
-            `president-club-${clubId}-events`,
-            JSON.stringify(events)
-          );
-        })();
+        fetchEvents();
       } else {
         setinitialevents(
           JSON.parse(sessionStorage.getItem(`president-club-${clubId}-events`))
@@ -72,17 +75,19 @@ const Manageevent = ({ data }) => {
   };
 
   // Delete event
-  const handleDeleteEvent = (id) => {
+  const handleDeleteEvent = async (id) => {
     setIsDltModalOpen(false);
-    (async () => {
-      const response = await fetch(
-        `${
-          import.meta.env.VITE_BACKEND_SERVER_URL
-        }/v1/clubs/events/delete?id=${id}`
-      );
-      const message = await response.json();
-      console.log(message);
-    })();
+    const response = await fetch(
+      `${
+        import.meta.env.VITE_BACKEND_SERVER_URL
+      }/v1/clubs/events/delete?id=${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+    const message = await response.json();
+    console.log(message);
+    await fetchEvents();
   };
 
   useEffect(() => {
@@ -93,40 +98,40 @@ const Manageevent = ({ data }) => {
   }, [setIsDeletable]);
 
   // Submit changes
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      isAddBtnClicked &&
-        (async () => {
-          const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/create`,
-            {
-              method: "POST",
-              body: JSON.stringify({ event: event }),
-              headers: { "Content-Type": "application/json" },
-            }
-          );
-          const message = await response.json();
-          console.log(message);
-          setIsChanged(false);
-          setIsModalOpen(false);
-        })();
+      if (isAddBtnClicked) {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/create`,
+          {
+            method: "POST",
+            body: JSON.stringify({ event: event }),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const message = await response.json();
+        console.log(message);
+        await fetchEvents();
+        setIsChanged(false);
+        setIsModalOpen(false);
+      }
 
-      isUpdateBtnClicked &&
-        (async () => {
-          const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/update`,
-            {
-              method: "PUT",
-              body: JSON.stringify({ event: event }),
-              headers: { "Content-Type": "application/json" },
-            }
-          );
-          const message = await response.json();
-          console.log(message);
-          setIsChanged(false);
-          setIsModalOpen(false);
-        })();
+      if (isUpdateBtnClicked) {
+        const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/events/update`,
+          {
+            method: "PUT",
+            body: JSON.stringify({ event: event }),
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+        const message = await response.json();
+        console.log(message);
+        await fetchEvents();
+        setIsChanged(false);
+        setIsModalOpen(false);
+      }
     } catch (err) {
       console.error("Error updating event:", err.message);
     }
@@ -473,24 +478,26 @@ const Manageevent = ({ data }) => {
           </div>
           <p>Do you really want to delete this event?</p>
           <div className="flex items-center justify-between">
-          <button
-            type="button"
-            name="cancel"
-            onClick={() => {
-              setIsDltModalOpen(false);
-            }}
-            className="w-[45%] bg-text-secondary-dark cursor-pointer text-white text-sm px-1 md:px-2 py-2 rounded-lg transition"
-          >
-            cancel
-          </button>
-          <button
-            type="button"
-            name="confirm"
-            onClick={() => {handleDeleteEvent(eventId)}}
-            className="w-[45%] bg-error hover:bg-error-secondary cursor-pointer text-white text-sm px-1 md:px-2 py-2 rounded-lg transition"
-          >
-            Confirm
-          </button>
+            <button
+              type="button"
+              name="cancel"
+              onClick={() => {
+                setIsDltModalOpen(false);
+              }}
+              className="w-[45%] bg-text-secondary-dark cursor-pointer text-white text-sm px-1 md:px-2 py-2 rounded-lg transition"
+            >
+              cancel
+            </button>
+            <button
+              type="button"
+              name="confirm"
+              onClick={() => {
+                handleDeleteEvent(eventId);
+              }}
+              className="w-[45%] bg-error hover:bg-error-secondary cursor-pointer text-white text-sm px-1 md:px-2 py-2 rounded-lg transition"
+            >
+              Confirm
+            </button>
           </div>
         </div>
       )}
