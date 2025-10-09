@@ -126,7 +126,7 @@ const Overview = ({ data }) => {
   }, [clubId]);
 
   return (
-    <div className="custom-scrollbar p-2 md:p-8 md:max-w-[75%] mx-auto space-y-2 md:space-y-8 max-h-screen overflow-y-scroll">
+    <div className="custom-scrollbar pt-4 p-2 md:p-8 md:max-w-[75%] mx-auto space-y-2 md:space-y-8 max-h-screen overflow-y-scroll">
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl text-nowrap md:text-3xl font-bold text-charcoal dark:text-white">

@@ -138,7 +138,7 @@ const Manageevent = ({ data }) => {
   };
 
   return (
-    <div className="relative custom-scrollbar p-2 md:p-8 md:w-[75%] mx-auto space-y-6 md:space-y-8 max-h-screen overflow-y-scroll">
+    <div className="relative custom-scrollbar pt-4 p-2 md:p-8 md:w-[75%] mx-auto space-y-6 md:space-y-8 max-h-screen overflow-y-scroll">
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl md:text-3xl font-bold text-charcoal dark:text-white">
@@ -152,7 +152,7 @@ const Manageevent = ({ data }) => {
         <button
           type="button"
           onClick={handleAddEvent}
-          className="cursor-pointer mx-auto w-[50%] px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold transition"
+          className="cursor-pointer mx-auto md:w-[50%] px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold transition"
         >
           + Add New Event
         </button>
@@ -234,7 +234,7 @@ const Manageevent = ({ data }) => {
 
       {/* Form Modal */}
       {isModalOpen && (
-        <div className="custom-scrollbar absolute top-[50%] left-[50%] -translate-1/2 w-[80%] max-h-[90%] overflow-y-scroll rounded-xl p-4 md:p-8 bg-gray-50 dark:bg-charcoal-card space-y-4 shadow-2xl ">
+        <div className="custom-scrollbar absolute top-[50%] left-[50%] -translate-1/2 w-[95%] md:w-[80%] max-h-[97%] md:max-h-[90%] overflow-y-scroll rounded-xl p-4 md:p-8 bg-gray-50 dark:bg-charcoal-card space-y-4 shadow-2xl ">
           {/* Form Header */}
           <div className="flex justify-between items-center">
             <h2 className="text-xl md:text-3xl font-bold text-charcoal dark:text-white">
@@ -259,7 +259,7 @@ const Manageevent = ({ data }) => {
             </h3>
             <div
               key={event.id}
-              className="border border-dashed relative bg-white dark:bg-charcoal-card shadow-md rounded-xl max-w-[80%] mx-auto overflow-hidden"
+              className="border border-dashed relative bg-white dark:bg-charcoal-card shadow-md rounded-xl md:max-w-[80%] mx-auto overflow-hidden"
             >
               <p
                 className={`absolute top-3 right-3 px-2 md:px-3 py-1 rounded-full text-xs font-semibold ${
@@ -310,14 +310,14 @@ const Manageevent = ({ data }) => {
           <form
             id="event-form"
             onSubmit={handleSubmit}
-            className="space-y-6 md:space-y-8"
+            className="space-y-4 md:space-y-8"
           >
             <div key={event.id} className="space-y-4">
               <h3 className="mb-2 text-lg md:text-2xl font-bold text-charcoal dark:text-white">
                 Edit Event
               </h3>
               {/* Title & Status */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Event Title
@@ -363,7 +363,7 @@ const Manageevent = ({ data }) => {
 
               {/* year & category */}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Event Year
@@ -396,7 +396,7 @@ const Manageevent = ({ data }) => {
               </div>
 
               {/* Image & Link */}
-              <div className="grid grid-cols-1 md:grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-1 gap-2 md:gap-4">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Event Image URL
@@ -460,6 +460,7 @@ const Manageevent = ({ data }) => {
         </div>
       )}
 
+      {/* Delete Event Modal */}
       {isDltModalOpen && (
         <div className="absolute top-1/2 left-1/2 -translate-1/2 w-[40%] h-[30%] rounded-xl p-2 md:p-6 bg-gray-50 dark:bg-charcoal-card space-y-6 shadow-2xl">
           <div className="flex justify-between items-center">

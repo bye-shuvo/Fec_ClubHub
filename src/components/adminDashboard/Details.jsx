@@ -148,7 +148,7 @@ const Details = ({ data }) => {
   };
 
   return (
-    <div className="custom-scrollbar p-2 md:p-8 md:min-w-[75%] mx-auto space-y-6 md:space-y-8 max-h-screen overflow-y-scroll">
+    <div className="custom-scrollbar pt-4 p-2 md:p-8 w-full md:w-[75%] mx-auto space-y-6 md:space-y-8 max-h-screen overflow-y-scroll">
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl text-nowrap md:text-3xl font-bold text-charcoal dark:text-white">
@@ -175,7 +175,7 @@ const Details = ({ data }) => {
         className="space-y-6 md:space-y-8"
       >
         {/* Logo + Banner */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-6">
           {/* Logo */}
           <div className="flex flex-col items-center border border-dashed border-gray-300 dark:border-gray-600 p-4 md:p-6 rounded-xl bg-gray-50 dark:bg-gray-800">
             <p className="text-sm text-gray-500 mb-3">Club Logo</p>
@@ -224,7 +224,7 @@ const Details = ({ data }) => {
         </div>
 
         {/* Club Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-6">
           <div>
             <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
               Club Name
@@ -297,7 +297,7 @@ const Details = ({ data }) => {
         </div>
 
         {/* Social Links */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-6">
           {contacts &&
             contacts.map((contact) => {
               return (
