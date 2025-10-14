@@ -84,6 +84,7 @@ const Sidebar = ({ sidebarTab, setSidebarTab }) => {
               key={field.tab}
               onClick={() => {
                 setSidebarTab(field?.tab);
+                window.innerWidth <= 1260 && setIsShrink(true);
               }}
               className={`${
                 field.tab === sidebarTab
