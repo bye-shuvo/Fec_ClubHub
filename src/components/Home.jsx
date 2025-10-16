@@ -1,7 +1,7 @@
-import React , { useEffect, useState } from "react";
-import Clubcards from "./Clubcards";
-import Eventcarousel from "./Eventcarousel";
-import Navbar from "./Navbar";
+import React , { useEffect, useState , useMemo, lazy , Suspense } from "react";
+const Clubcards = lazy(() => import("./Clubcards"))
+const Eventcarousel = lazy(() => import("./Eventcarousel"))
+const Navbar = lazy(() => import("./Navbar"))
 
 const Home = () => {
   const [clubs , setClubs] = useState([]);
@@ -116,16 +116,18 @@ const Home = () => {
     }
   };
 
-  useEffect(()=>{
+  useMemo(()=>{
     fetchClubs();
     return () => setClubs([]);
     } , []);
 
   return (
     <div className="font-all min-h-[100vh] dark:bg-charcoal -z-30 pb-2">
+    <Suspense>
       <Navbar getCategoryColors={getCategoryColors}/>
       <Eventcarousel clubs={clubs} getCategoryColors={getCategoryColors}/>
       <Clubcards clubs={clubs} getCategoryColors={getCategoryColors} isFetching={isFetching}/>
+    </Suspense>
     </div>
   );
 };
