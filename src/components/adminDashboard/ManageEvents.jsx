@@ -10,8 +10,11 @@ const Manageevent = ({ data }) => {
   const [isDeletable, setIsDeletable] = useState(false);
   const [isDltModalOpen, setIsDltModalOpen] = useState(false);
   const [eventId, setEventId] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+  const [isUploading , setIsUploading] = useState(false);
   const clubId = data?.club_id;
-
+  const imageEleRef = useRef(null);
   // Fetch event
 
   const fetchEvents = async () => {
@@ -137,6 +140,38 @@ const Manageevent = ({ data }) => {
     }
   };
 
+  // Image Upload
+  const getImageURL = (input) => {
+    setUploadedImage(input.files[0]);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setPreviewImage(e.target.result);
+      console.log(e.target.result);
+    };
+    reader.readAsDataURL(input.files[0]);
+  };
+
+  const handleImageUpload = async () => {
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("file", uploadedImage);
+    formData.append("upload_preset", "unsinged");
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${
+        import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
+      }/image/upload`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const image = await response.json();
+    console.log(image);
+    setEvent(prev => ({...prev , image : image.url}));
+    setUploadedImage(null);
+    setIsUploading(false);
+  };
+
   return (
     <div className="relative custom-scrollbar pt-4 p-2 md:p-8 md:w-[75%] mx-auto space-y-6 md:space-y-8 max-h-screen overflow-y-scroll">
       {/* Header */}
@@ -245,6 +280,8 @@ const Manageevent = ({ data }) => {
               onClick={() => {
                 setIsChanged(false);
                 setIsModalOpen(false);
+                setPreviewImage(null);
+                setUploadedImage(null);
               }}
               className="p-2 px-4 rounded-md cursor-pointer border dark:border-gray-600 hover:bg-error-secondary"
             >
@@ -274,9 +311,9 @@ const Manageevent = ({ data }) => {
               >
                 {event.category || "Temporary"}
               </p>
-              {event.image ? (
+              {previewImage || event.image  ? (
                 <img
-                  src={event.image}
+                  src={previewImage || event.image}
                   alt="Event Banner"
                   className="w-full min-h-40 object-cover"
                 />
@@ -396,11 +433,11 @@ const Manageevent = ({ data }) => {
               </div>
 
               {/* Image & Link */}
-              <div className="grid grid-cols-1 md:grid-cols-1 gap-2 md:gap-4">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <div className="grid grid-cols-1 md:grid-cols-1 gap-2 md:gap-4 mb-5">
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">
                     Event Image URL
                   </label>
+                <div className="flex gap-2">
                   <input
                     type="text"
                     name="image"
@@ -408,6 +445,34 @@ const Manageevent = ({ data }) => {
                     onChange={(e) => handleChange(e, event.id)}
                     className="w-full px-4 py-2 rounded-lg border dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                   />
+                  <p className="mt-3 text-text-muted">Or</p>
+                  <button
+                    type="button"
+                    className="bg-primary hover:bg-primary-dark px-6 rounded-lg cursor-pointer"
+                    onClick={() => imageEleRef.current.click()}
+                  >
+                    Upload
+                  </button>
+                  <input
+                    onChange={(e) => getImageURL(e.target)}
+                    ref={imageEleRef}
+                    className="hidden"
+                    type="file"
+                    accept="image/*"
+                    name="upload"
+                    id="event-photo"
+                  />
+                  {uploadedImage && (
+                    <button
+                      type="button"
+                      className="bg-green-500 hover:bg-green-600 px-6 rounded-lg cursor-pointer"
+                      onClick={handleImageUpload}
+                    >
+                      {
+                        isUploading ? <svg className="h-8 w-8 animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path d="M272 112C272 85.5 293.5 64 320 64C346.5 64 368 85.5 368 112C368 138.5 346.5 160 320 160C293.5 160 272 138.5 272 112zM272 528C272 501.5 293.5 480 320 480C346.5 480 368 501.5 368 528C368 554.5 346.5 576 320 576C293.5 576 272 554.5 272 528zM112 272C138.5 272 160 293.5 160 320C160 346.5 138.5 368 112 368C85.5 368 64 346.5 64 320C64 293.5 85.5 272 112 272zM480 320C480 293.5 501.5 272 528 272C554.5 272 576 293.5 576 320C576 346.5 554.5 368 528 368C501.5 368 480 346.5 480 320zM139 433.1C157.8 414.3 188.1 414.3 206.9 433.1C225.7 451.9 225.7 482.2 206.9 501C188.1 519.8 157.8 519.8 139 501C120.2 482.2 120.2 451.9 139 433.1zM139 139C157.8 120.2 188.1 120.2 206.9 139C225.7 157.8 225.7 188.1 206.9 206.9C188.1 225.7 157.8 225.7 139 206.9C120.2 188.1 120.2 157.8 139 139zM501 433.1C519.8 451.9 519.8 482.2 501 501C482.2 519.8 451.9 519.8 433.1 501C414.3 482.2 414.3 451.9 433.1 433.1C451.9 414.3 482.2 414.3 501 433.1z"/></svg> : "Confirm"
+                      }
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
