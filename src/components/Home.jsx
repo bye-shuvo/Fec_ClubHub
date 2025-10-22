@@ -1,7 +1,7 @@
 import React , { useEffect, useState , useMemo, lazy , Suspense } from "react";
-const Clubcards = lazy(() => import("./Clubcards"))
-const Eventcarousel = lazy(() => import("./Eventcarousel"))
-const Navbar = lazy(() => import("./Navbar"))
+const Clubcards = lazy(() => import("./Clubcards.jsx"))
+const Eventcarousel = lazy(() => import("./Eventcarousel.jsx"))
+const Navbar = lazy(() => import("./Navbar.jsx"))
 
 const Home = () => {
   const [clubs , setClubs] = useState([]);
