@@ -6,7 +6,7 @@ const Committee = ({ club, colors }) => {
   const getClubCommittee = async () => {
     if (!sessionStorage.getItem(`committee_${club.shortName}`)) {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/committee/search?clubId=${club.clubId}`
+        `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/committee/find?clubId=${club.clubId}`
       );
       const data = await response.json();
       setMembers(data);

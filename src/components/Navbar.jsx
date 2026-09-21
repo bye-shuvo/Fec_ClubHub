@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import SignIn from "./SignIn.jsx";
 import ThemeToggler from "./ThemeToggler.jsx";
@@ -16,6 +16,7 @@ const Navbar = ({ getCategoryColors }) => {
       `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/search?club=${value}`
     );
     const data = await response.json();
+    console.log(data);
     setSearchedClubs(data);
     setIsSearching(false);
   };
@@ -94,10 +95,10 @@ const Navbar = ({ getCategoryColors }) => {
                       <img
                         className="h-full w-14 object-center object-cover"
                         src={club.logo}
-                        alt={club.name.slice(0, 1)}
+                        alt={club.NAME.slice(0, 1)}
                       />
                       <p className="md:text-lg text-sm dark:text-white text-charcoal">
-                        {club.name}
+                        {club.NAME}
                       </p>
                     </Link>
                   );

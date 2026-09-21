@@ -6,7 +6,7 @@ const Achievements = ({ club }) => {
   const getAcheivements = async () => {
     if (!sessionStorage.getItem(`event_${club.shortName}`)) {
       const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/achievements/search?clubId=${club.clubId}`
+        `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/achievements/find?clubId=${club.clubId}`
       );
       const data = await response.json();
       setAcheivements(data);

@@ -35,7 +35,7 @@ const Testimonials = ({ club }) => {
   const getTestimonials = async () => {
     if (!sessionStorage.getItem(`testimonial_${club.shortName}`)) {
       const testimonial_response = await fetch(
-        `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/testimonials/search?clubId=${club.clubId}`
+        `${import.meta.env.VITE_BACKEND_SERVER_URL}/v1/clubs/testimonials/find?clubId=${club.clubId}`
       );
       const testimonial_data = await testimonial_response.json();
       setTestimonials(testimonial_data);
